@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifikasi - JelajahinNusa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* CSS Variables (Diambil dari kode sebelumnya)*/
+        :root {
+            --dark-bg: #000000; /* Latar belakang utama */
+            --dark-bg-secondary: #1A1A1A; /* Latar belakang footer/card */
+            --text-primary: #FFFFFF; /* Teks putih */
+            --text-secondary: #AAAAAA; /* Teks abu-abu/muted */
+            --accent-green: #1F4529; /* Warna hijau aksen (logo, tombol) */
+            --card-overlay: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 100%);
+            /* Variabel Khusus Halaman Akun */
+            --sidebar-width: 250px;
+        }
+
+        /* Reset & Global */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            zoom: 90% ;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* === Layout Utama Halaman Akun === */
+        .account-page {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* === Sidebar Navigasi === */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--dark-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 30px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            border-right: 1px solid #1A1A1A;
+        }
+
+        .sidebar-top {
+            padding: 0 20px;
+        }
+
+        .sidebar .logo {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .sidebar .logo img {
+            height: 30px;
+            width: auto;
+        }
+        
+        .sidebar h4 {
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 10px 0;
+            margin-top: 10px;
+        }
+
+        .nav-menu-sidebar a {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            margin: 5px 0;
+            color: var(--text-secondary);
+            transition: background-color 0.3s, color 0.3s;
+            border-radius: 8px;
+        }
+        .nav-menu-sidebar a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-menu-sidebar a.active {
+            background-color: var(--dark-bg-secondary);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        
+        .nav-menu-sidebar i {
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Perubahan untuk menempatkan tombol Log Out sebagai menu item di bagian paling bawah */
+        .sidebar-bottom {
+            padding: 0 20px;
+            /* Menghapus properti flexbox centering yang lama */
+            width: 100%; 
+        }
+
+        .sidebar-bottom .logout-link { 
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            margin: 5px 0;
+            color: red;
+            transition: background-color 0.3s, color 0.3s;
+            border-radius: 8px;
+            background-color: transparent; 
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .sidebar-bottom .logout-link:hover {
+            background-color: var(--dark-bg-secondary);
+            color: red;
+        }
+
+        .sidebar-bottom .logout-link i {
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+            color: inherit; 
+        }
+        
+        /* === Konten Utama (Main Content) === */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex-grow: 1;
+            padding: 0;
+            position: relative;
+        }
+        
+        /* Latar Belakang Gambar */
+        .background-image-container {
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-width);
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            background-image: url('gambar/jawa.jpg'); 
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.4) grayscale(0.2);
+        }
+
+        /* Container Isi Konten (Di atas background) */
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            padding: 0 40px; 
+        }
+
+        /* === Navbar / Search Bar === */
+        .main-header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 50px;
+        }
+        
+        .search-bar-main {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 10px 20px;
+            max-width: 400px;
+            width: 100%;
+        }
+        .search-bar-main input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            margin-left: 10px;
+            font-family: 'Poppins', sans-serif;
+            flex-grow: 1;
+        }
+        .search-bar-main i {
+            color: var(--text-secondary);
+        }
+
+        /* === Bagian Notifikasi (Mirip Profile Section) === */
+        .notification-section {
+            display: flex;
+            flex-direction: column;
+            margin-top: 50px;
+            padding: 30px 40px; 
+            max-width: 700px; 
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.75); 
+            border-radius: 15px; 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .notification-section h2 {
+            font-size: 28px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--dark-bg-secondary);
+            padding-bottom: 10px;
+        }
+
+        /* === List Notifikasi / Pengaturan Notifikasi === */
+        .notification-list {
+            width: 100%;
+        }
+        
+        .notification-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+        
+        .item-info {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            padding-right: 20px; /* Tambahkan sedikit padding agar tidak menempel ke switch */
+        }
+
+        .item-info h3 {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .item-info p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Toggle Switch Styling */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 25px;
+            flex-shrink: 0; /* Pastikan switch tidak menyusut */
+        }
+
+        .switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 25px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 19px;
+            width: 19px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--accent-green);
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px var(--accent-green);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(25px);
+        }
+
+        /* === Bagian Bawah Konten (Footer Links) === */
+        .bottom-section {
+            max-width: 600px;
+            margin: 80px auto 0 auto;
+            padding-bottom: 50px;
+            padding-left: 10px; 
+            width: 100%;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+        }
+        .footer-links a {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            transition: color 0.3s;
+        }
+        .footer-links a:hover {
+            color: var(--text-secondary);
+        }
+        
+        /* === Media Query untuk Layar Kecil (Responsive) === */
+        @media (max-width: 768px) {
+            /* --- Sidebar --- */
+            .sidebar {
+                width: 70px;
+                padding: 20px 0;
+            }
+            .sidebar .logo, .sidebar h4, .nav-menu-sidebar span, .sidebar-bottom .logout-link span {
+                display: none;
+            }
+            .nav-menu-sidebar a { justify-content: center; padding: 15px 0; margin: 10px 0; }
+            .nav-menu-sidebar i { margin-right: 0; }
+            .sidebar-bottom { padding: 0 10px; }
+            .sidebar-bottom .logout-link { justify-content: center; padding: 15px 0; }
+            .sidebar-bottom .logout-link i { margin-right: 0; }
+
+            /* --- Main Content Layout --- */
+            .main-content {
+                margin-left: 70px; /* Menyesuaikan dengan lebar sidebar baru */
+                width: calc(100% - 70px);
+            }
+            
+            .background-image-container {
+                left: 70px; /* Menyesuaikan posisi background */
+            }
+
+            .content-wrapper {
+                padding: 0 15px; /* Mengurangi padding horizontal */
+                max-width: 100%;
+            }
+
+            .main-header {
+                justify-content: center; /* Menengahkan search bar */
+                margin-bottom: 20px;
+                padding: 15px 0;
+            }
+            
+            /* --- Notification Section (Main Content Responsive) --- */
+            .notification-section {
+                padding: 20px; /* Kurangi padding */
+                margin-top: 30px; /* Kurangi margin atas */
+                max-width: 100%; 
+            }
+
+            .notification-section h2 {
+                font-size: 24px; /* Kecilkan ukuran judul */
+            }
+
+            .item-info {
+                padding-right: 15px; /* Kurangi padding kanan */
+            }
+            .item-info h3 {
+                font-size: 16px;
+            }
+            .item-info p {
+                font-size: 13px;
+            }
+            
+            /* --- Footer/Bottom Section --- */
+            .bottom-section {
+                margin-top: 50px;
+                padding-left: 0;
+                padding-bottom: 20px;
+            }
+            
+            .footer-links {
+                flex-direction: column; /* Membuat link bertumpuk */
+                gap: 10px;
+                align-items: flex-start;
+            }
+            .footer-links a {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="account-page">
+        <aside class="sidebar">
+            <div class="sidebar-top">
+                <a href="index.html" class="logo">
+                    JelajahinNusa
+                </a>
+                
+                <h4>Manajemen Akun</h4>
+                <nav class="nav-menu-sidebar">
+                    <a href="infoAkun1.html"><i class="fas fa-user-circle"></i> <span>Akun</span></a>
+                    <a href="infoAkun2.html"><i class="fas fa-lock"></i> <span>Keamanan & Privasi</span></a>
+                    <a href="infoAkun3.html" class="active"><i class="fas fa-bell"></i> <span>Notifikasi</span></a>
+                    <a href="infoAkun4.html"><i class="fas fa-cog"></i> <span>Manajemen Galeri</span></a>
+                </nav>
+            </div>
+            <br><br><br><br>
+            <div class="sidebar-bottom"><br><br>
+                <a href="index.html" class="logout-link" title="Keluar">
+                    <i class="fas fa-sign-out-alt"></i> <span>Keluar</span>
+                </a>
+            </div>
+        </aside>
+
+        <div class="main-content">
+            <div class="background-image-container">
+            </div>
+
+            <div class="content-wrapper">
+                
+                <div class="main-header">
+                    <form class="search-bar-main">
+                        <input type="text" placeholder="Search">
+                        <i class="fas fa-search"></i>
+                    </form>
+                </div>
+
+                <section class="notification-section">
+                    <h2>Pengaturan Notifikasi</h2>
+
+                    <div class="notification-list">
+                        
+                        <div class="notification-item">
+                            <div class="item-info">
+                                <h3>Notifikasi Email</h3>
+                                <p>Dapatkan pembaruan dan promosi melalui email.</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="notification-item">
+                            <div class="item-info">
+                                <h3>Notifikasi Galeri Baru</h3>
+                                <p>Beritahu saya saat ada foto atau video baru di galeri yang saya ikuti.</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="notification-item">
+                            <div class="item-info">
+                                <h3>Notifikasi Komentar</h3>
+                                <p>Beritahu saya saat ada komentar baru pada unggahan saya.</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="notification-item">
+                            <div class="item-info">
+                                <h3>Pembaruan Sistem & Keamanan</h3>
+                                <p>Dapatkan pemberitahuan penting terkait akun dan keamanan.</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="notification-item">
+                            <div class="item-info">
+                                <h3>Notifikasi Populer</h3>
+                                <p>Beritahu saya tentang destinasi dan unggahan yang sedang tren.</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                    </div>
+                    
+                    <div class="bottom-section">
+                        <div class="footer-links">
+                            <a href="#">Customer Service</a>
+                            <a href="#">Tentang Kami</a>
+                        </div>
+                    </div>
+                    
+                </section>
+                
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

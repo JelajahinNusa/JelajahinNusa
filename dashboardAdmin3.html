@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengaturan - Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --dark-bg: #000000;
+            --dark-bg-secondary: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #AAAAAA;
+            --accent-green: #1F4529;
+            --sidebar-width: 250px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            zoom: 90% ;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .account-page {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* === Sidebar Navigasi === */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--dark-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 30px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            border-right: 1px solid #1A1A1A;
+        }
+
+        .sidebar-top {
+            padding: 0 20px;
+        }
+
+        .sidebar .logo {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .sidebar h4 {
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 10px 0;
+            margin-top: 10px;
+        }
+
+        .nav-menu-sidebar a {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            margin: 5px 0;
+            color: var(--text-secondary);
+            transition: background-color 0.3s, color 0.3s;
+            border-radius: 8px;
+        }
+        .nav-menu-sidebar a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-menu-sidebar a.active {
+            background-color: var(--dark-bg-secondary);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        
+        .nav-menu-sidebar i {
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Tombol Logout di bagian paling bawah */
+        .sidebar-bottom {
+            padding: 0 20px;
+            width: 100%; 
+        }
+
+        .sidebar-bottom .logout-link { 
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            margin: 5px 0;
+            color: red;
+            transition: background-color 0.3s, color 0.3s;
+            border-radius: 8px;
+            background-color: transparent; 
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        /* === Konten Utama (Main Content) === */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex-grow: 1;
+            padding: 0;
+            position: relative;
+        }
+        
+        /* Latar Belakang Gambar */
+        .background-image-container {
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-width);
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            background-image: url('gambar/jawa.jpg'); 
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.4) grayscale(0.2);
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            padding: 0 40px;
+        }
+
+        /* === Navbar / Header Admin === */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 50px;
+        }
+        
+        .search-bar-main {
+            visibility: hidden; 
+        }
+        
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .admin-profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #555555;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .admin-profile-pic i {
+            font-size: 20px;
+            color: var(--text-primary);
+        }
+        .admin-profile-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        /* === Bagian Pengaturan === */
+        .admin-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .settings-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .settings-section {
+            background-color: rgba(0, 0, 0, 0.75);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+        }
+
+        .settings-section h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap; /* untuk pengaturan umum */
+        }
+        .form-group.vertical {
+            display: block;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .form-group.switch-group label {
+            margin-bottom: 0;
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--dark-bg-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        .form-group select {
+            width: 100%;
+            min-width: 150px;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23AAAAAA'%3e%3cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            padding-right: 30px;
+            cursor: pointer;
+        }
+
+        /* Styling untuk Logo */
+        .logo-upload {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .logo-preview {
+            width: 80px;
+            height: 80px;
+            background-color: #555555;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            color: var(--text-primary);
+            overflow: hidden;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px; /* Logo biasanya kotak atau persegi panjang */
+        }
+        .upload-button {
+            padding: 8px 15px;
+            background-color: #444444;
+            color: var(--text-primary);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        .upload-button:hover {
+            background-color: #666666;
+        }
+
+
+        /* Toggle Switch Styling */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc; transition: .4s; border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px;
+            background-color: white; transition: .4s; border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--accent-green); }
+        input:checked + .slider:before { transform: translateX(26px); }
+
+        /* Tombol Simpan */
+        .settings-action-button {
+            padding: 12px 25px;
+            background-color: var(--accent-green); 
+            color: var(--text-primary);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+            float: right; 
+        }
+
+        .settings-action-button:hover {
+            background-color: #2e623b; 
+        }
+        
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        /* Gaya untuk bagian penuh lebar di bawah kolom */
+        .full-width-section {
+            grid-column: 1 / 3; 
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="account-page">
+        <aside class="sidebar">
+            <div class="sidebar-top">
+                <a href="index.html" class="logo">
+                    JelajahinNusa
+                </a>
+                
+                <h4>Dashboard Admin</h4>
+                <nav class="nav-menu-sidebar">
+                    <a href="dashboardAdmin1.html"><i class="fas fa-users"></i> <span class="sidebar-link-text">Manajemen Pengguna</span></a>
+                    <a href="dashboardAdmin2.html"><i class="fas fa-file-invoice"></i> <span class="sidebar-link-text">Manajemen Artikel</span></a>
+                    <a href="dashboardAdmin3.html" class="active"><i class="fas fa-gear"></i> <span class="sidebar-link-text">Pengaturan</span></a>
+                    <a href="dashboardAdmin4.html"><i class="fas fa-comment-dots"></i> <span class="sidebar-link-text">Ulasan Pengguna</span></a>
+                </nav>
+            </div>
+            
+            <br><br><br><br>
+            <div class="sidebar-bottom"><br><br>
+                <a href="loginAdmin.html" class="logout-link" title="Keluar">
+                    <i class="fas fa-sign-out-alt"></i> Keluar
+                </a>
+            </div>
+        </aside>
+
+        <div class="main-content">
+            <div class="background-image-container">
+            </div>
+
+            <div class="content-wrapper">
+                
+                <div class="main-header">
+                    <form class="search-bar-main"></form> 
+                    
+                    <div class="admin-profile">
+                        <div class="admin-profile-pic">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <span class="admin-profile-name">Admin 1</span>
+                    </div>
+                </div>
+
+                <div class="admin-title">Pengaturan Sistem & Situs Web</div>
+                
+                <div class="settings-container">
+                    
+                    <section class="settings-section">
+                        <h3><i class="fas fa-globe"></i> Pengaturan Umum Situs</h3>
+                        <form>
+                            <div class="logo-upload">
+                                <div class="logo-preview">
+                                    <i class="fas fa-mountain"></i>
+                                </div>
+                                <div>
+                                    <label for="site-logo">Logo Situs</label>
+                                    <button type="button" class="upload-button">Unggah Logo Baru</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group vertical">
+                                <label for="site-name">Nama Situs</label>
+                                <input type="text" id="site-name" value="JelajahinNusa">
+                            </div>
+
+                            <div class="form-group vertical">
+                                <label for="site-tagline">Slogan (Tagline)</label>
+                                <input type="text" id="site-tagline" value="Temukan Pesona Alam Indonesia">
+                            </div>
+                            
+                            <div class="form-group vertical">
+                                <label for="timezone">Zona Waktu</label>
+                                <select id="timezone">
+                                    <option value="WIB" selected>WIB (Waktu Indonesia Barat)</option>
+                                    <option value="WITA">WITA (Waktu Indonesia Tengah)</option>
+                                    <option value="WIT">WIT (Waktu Indonesia Timur)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="clearfix">
+                                <button type="submit" class="settings-action-button">Simpan Umum</button>
+                            </div>
+                        </form>
+                    </section>
+                    
+                    <section class="settings-section">
+                        <h3><i class="fas fa-shield-alt"></i> Keamanan & Performa Situs</h3>
+                        <form>
+                            <div class="form-group switch-group">
+                                <label>Mode Pemeliharaan Situs</label>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="form-group vertical" style="margin-top: 10px;">
+                                <label for="maintenance-message">Pesan Mode Pemeliharaan</label>
+                                <input type="text" id="maintenance-message" value="Situs sedang dalam pemeliharaan. Kembali segera.">
+                            </div>
+                            
+                            <br><hr style="border-color: rgba(255, 255, 255, 0.1); margin: 30px 0;">
+
+                            <div class="form-group switch-group">
+                                <label>Aktifkan Caching Halaman Penuh</label>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="form-group vertical">
+                                <label for="cache-duration">Durasi Cache Halaman (Menit)</label>
+                                <input type="text" id="cache-duration" value="60">
+                            </div>
+
+                            <div class="clearfix">
+                                <button type="button" class="upload-button" style="float: left; margin-top: 10px; background-color: #C0392B;">
+                                    <i class="fas fa-trash-alt"></i> Bersihkan Semua Cache
+                                </button>
+                                <button type="submit" class="settings-action-button">Simpan Performa</button>
+                            </div>
+                        </form>
+                    </section>
+                    
+                    <section class="settings-section full-width-section">
+                        <h3><i class="fas fa-search"></i> Pengaturan Konten & SEO Dasar</h3>
+                        <form>
+                            <div style="display: flex; gap: 30px;">
+                                <div style="flex: 1;">
+                                    <div class="form-group vertical">
+                                        <label for="default-author">Penulis Default Artikel</label>
+                                        <input type="text" id="default-author" value="Admin JelajahinNusa">
+                                    </div>
+                                    <div class="form-group vertical">
+                                        <label for="posts-per-page">Artikel Per Halaman (Arsip)</label>
+                                        <select style="width: 100%;">
+                                            <option value="5">5</option>
+                                            <option value="10" selected>10</option>
+                                            <option value="15">15</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div style="flex: 1;">
+                                    <div class="form-group vertical">
+                                        <label for="meta-title">Meta Title Default Situs</label>
+                                        <input type="text" id="meta-title" value="JelajahinNusa - Wisata Indonesia Terbaik">
+                                    </div>
+                                    <div class="form-group vertical">
+                                        <label for="google-analytics">ID Google Analytics</label>
+                                        <input type="text" id="google-analytics" placeholder="Contoh: UA-12345678-9">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <br><hr style="border-color: rgba(255, 255, 255, 0.1); margin: 30px 0;">
+
+                            <div class="form-group switch-group">
+                                <label>Izinkan Pengindeksan Oleh Mesin Pencari</label>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="clearfix">
+                                <button type="submit" class="settings-action-button">Simpan Pengaturan Konten</button>
+                            </div>
+                        </form>
+                    </section>
+
+                </div>
+                
+            </div>
+        </div>
+    </body>
+</html>

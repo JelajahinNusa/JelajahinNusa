@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Galeri - JelajahinNusa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* CSS Variables */
+        :root {
+            --dark-bg: #000000;
+            --dark-bg-secondary: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #AAAAAA;
+            --accent-green: #4CAF50; 
+            --accent-like: #E57373; 
+            --sidebar-width: 250px;
+            --content-max-width: 1200px; 
+        }
+
+        /* Reset & Global */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            zoom: 90% ;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* === Layout Utama Halaman Akun === */
+        .account-page {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* === Sidebar Navigasi === */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--dark-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 30px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            border-right: 1px solid #1A1A1A;
+
+        }
+
+        .sidebar-top {
+            padding: 0 20px;
+        }
+
+        .sidebar .logo {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-primary);
+        }
+        
+        .sidebar h4 {
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 10px 0;
+            margin-top: 10px;
+        }
+
+        .nav-menu-sidebar a {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            margin: 5px 0;
+            color: var(--text-secondary);
+            transition: background-color 0.3s, color 0.3s;
+            border-radius: 8px;
+        }
+        .nav-menu-sidebar a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-menu-sidebar a.active {
+            background-color: var(--dark-bg-secondary);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        
+        .nav-menu-sidebar i {
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+        
+        .nav-menu-sidebar a.active i {
+            color: var(--text-primary);
+        }
+
+        .sidebar-bottom {
+            padding: 0 20px;
+            width: 100%; 
+        }
+
+        .sidebar-bottom .logout-link { 
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            margin: 5px 0;
+            color: red;
+            transition: background-color 0.3s, color 0.3s;
+            border-radius: 8px;
+            background-color: transparent; 
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .sidebar-bottom .logout-link:hover {
+            background-color: var(--dark-bg-secondary);
+            color: red;
+        }
+
+        .sidebar-bottom .logout-link i {
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+            color: inherit; 
+        }
+        
+        /* === Konten Utama (Main Content) === */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex-grow: 1;
+            padding: 0;
+            position: relative;
+        }
+        
+        /* Latar Belakang Gambar */
+        .background-image-container {
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-width);
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            background-image: url('gambar/jawa.jpg'); 
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.4) grayscale(0.2);
+        }
+
+        /* Container Isi Konten (Di atas background) */
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            padding: 0 40px; 
+            max-width: var(--content-max-width); 
+            margin: 0 auto;
+        }
+
+        /* === Navbar / Search Bar === */
+        .main-header {
+            display: flex;
+            justify-content: flex-end; 
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px; 
+        }
+        
+        .search-bar-main {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 10px 20px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .search-bar-main input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            margin-left: 10px;
+            font-family: 'Poppins', sans-serif;
+            flex-grow: 1;
+        }
+        .search-bar-main i {
+            color: var(--text-secondary);
+        }
+
+
+        /* === Galeri Gambar === */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 25px;
+            padding-bottom: 80px; 
+        }
+
+        .gallery-card {
+            background-color: var(--dark-bg-secondary);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 1/1.2; 
+            display: flex;
+            flex-direction: column; 
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 80%; /* Disesuaikan agar ada ruang untuk caption */
+            object-fit: cover;
+            display: block;
+        }
+        
+        /* Style untuk Caption */
+        .gallery-caption {
+            width: 100%;
+            height: 20%; /* Sisa ruang */
+            padding: 5px 10px;
+            font-size: 14px;
+            color: var(--text-primary);
+            background-color: rgba(0, 0, 0, 0.5); /* Background gelap untuk teks agar mudah dibaca */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-align: left;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+
+        /* --- Style Tombol Opsi (Tiga Titik) dan Dropdown --- */
+        .options-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.5); /* Background gelap semi-transparan */
+            color: var(--text-primary);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 14px;
+            z-index: 5; 
+            transition: background-color 0.3s;
+        }
+
+        .options-btn:hover {
+            background-color: var(--dark-bg);
+        }
+
+        .card-dropdown {
+            display: none; /* Default tersembunyi */
+            position: absolute;
+            top: 40px; /* Di bawah tombol opsi */
+            right: 5px;
+            background-color: var(--dark-bg-secondary);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+            min-width: 120px;
+            overflow: hidden;
+            padding: 5px 0;
+        }
+
+        .card-dropdown.active {
+            display: block;
+        }
+
+        .card-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .card-dropdown a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .card-dropdown .delete-action {
+            color: #ff5252; /* Warna merah untuk aksi hapus */
+        }
+        /* --- Akhir Style Dropdown --- */
+        
+        /* Kelas ini sekarang diterapkan ke elemen yang memicu modal */
+        .add-photo-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px dashed var(--text-secondary);
+            color: var(--text-secondary);
+            font-size: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .add-photo-card:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: var(--text-primary);
+            color: var(--text-primary);
+        }
+        
+        /* === Footer === */
+        .bottom-footer {
+            display: flex;
+            justify-content: center; 
+            gap: 60px; 
+            padding: 30px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 50px; 
+        }
+
+        .bottom-footer a {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: color 0.3s;
+        }
+        .bottom-footer a:hover {
+            color: var(--text-primary);
+        }
+
+        /* --- Style Modal --- */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 10; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.8); 
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: var(--dark-bg-secondary);
+            margin: 5% auto; 
+            padding: 30px;
+            border-radius: 15px;
+            width: 80%; 
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        
+        .modal-content h3 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        .modal-content label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .modal-content input[type="file"],
+        .modal-content input[type="text"],
+        .modal-content select
+        {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--text-secondary);
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+        }
+        
+        /* Style Tambahan untuk Dropdown agar serasi */
+        .modal-content select {
+            appearance: none; 
+            -webkit-appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="white" d="M7.646 10.854l-3-3L5.5 6.5l2.146 2.146L9.793 6.5l1.06 1.06-3 3z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 30px;
+        }
+        .modal-content select:invalid {
+            color: var(--text-secondary); 
+        }
+
+        .modal-content button {
+            background-color: var(--text-primary);
+            color: var(--dark-bg);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            float: right;
+            margin-left: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .modal-content button:hover {
+            background-color: var(--text-primary);
+        }
+
+        .close-btn {
+            color: var(--text-secondary);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            line-height: 1; 
+            position: relative; 
+            top: -15px;
+            right: -10px;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: var(--text-primary);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+
+        /* === Media Query untuk Layar Kecil (misalnya di bawah 768px) === */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+                left: 0;
+                padding: 20px 0;
+                transition: width 0.3s, left 0.3s;
+            }
+            
+            .sidebar .logo,
+            .sidebar h4,
+            .nav-menu-sidebar span,
+            /* ATURAN BARU UNTUK TOMBOL KELUAR */
+            .sidebar-bottom .logout-link span { /* Menghilangkan teks 'Keluar' */
+                display: none;
+            }
+
+            .nav-menu-sidebar a {
+                justify-content: center;
+                padding: 15px 0;
+                margin: 10px 0;
+            }
+            .nav-menu-sidebar i {
+                margin-right: 0;
+            }
+
+            .sidebar-bottom {
+                padding: 0 10px;
+            }
+
+            /* ATURAN BARU UNTUK TOMBOL KELUAR */
+            .sidebar-bottom .logout-link {
+                justify-content: center; /* Memastikan ikon di tengah */
+                padding: 15px 0; /* Padding yang disesuaikan */
+            }
+            .sidebar-bottom .logout-link i {
+                margin-right: 0; /* Menghilangkan margin pada ikon */
+            }
+
+            .main-content {
+                margin-left: 70px;
+                width: calc(100% - 70px);
+            }
+            
+            .background-image-container {
+                left: 70px;
+            }
+
+            .content-wrapper {
+                padding: 0 15px;
+                max-width: 100%;
+            }
+
+            .main-header {
+                justify-content: center; 
+                margin-bottom: 20px;
+                padding: 15px 0;
+            }
+            
+            .content-header {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-bottom: 25px;
+            }
+            .content-header h2 {
+                margin-bottom: 15px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
+                gap: 15px;
+                padding-bottom: 50px;
+            }
+
+            .bottom-footer {
+                flex-direction: column;
+                gap: 15px;
+                margin-top: 30px;
+                padding: 20px 0;
+            }
+            
+            .modal-content {
+                width: 90%; 
+                margin: 20% auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="account-page">
+        <aside class="sidebar">
+            <div class="sidebar-top">
+                <a href="index.html" class="logo">
+                    JelajahinNusa
+                </a>
+                
+                <h4>Manajemen Akun</h4>
+                <nav class="nav-menu-sidebar">
+                    <a href="infoAkun1.html"><i class="fas fa-user-circle"></i> <span>Akun</span></a>
+                    <a href="infoAkun2.html"><i class="fas fa-lock"></i> <span>Keamanan & Privasi</span></a>
+                    <a href="infoAkun3.html"><i class="fas fa-bell"></i> <span>Notifikasi</span></a>
+                    <a href="infoAkun4.html" class="active"><i class="fas fa-cog"></i> <span>Manajemen Galeri</span></a>
+                </nav>
+            </div>
+            
+            <br><br><br><br>
+            <div class="sidebar-bottom"><br><br>
+                <a href="index.html" class="logout-link" title="Keluar">
+                    <i class="fas fa-sign-out-alt"></i> <span>Keluar</span> </a>
+            </div>
+        </aside>
+
+        <div class="main-content">
+            <div class="background-image-container">
+            </div>
+
+            <div class="content-wrapper">
+                
+                <header class="main-header">
+                    <form class="search-bar-main">
+                        <input type="text" placeholder="Search">
+                        <i class="fas fa-search"></i>
+                    </form>
+                </header>
+
+                <section class="gallery-grid" id="galleryGrid">
+                    
+                    <div class="gallery-card add-photo-card" id="openModalBtn">
+                        <i class="fas fa-plus"></i>
+                    </div>
+
+                    <div class="gallery-card" data-category="Air Terjun">
+                        <button class="options-btn" aria-label="Opsi">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <div class="card-dropdown">
+                            <a href="#" class="edit-action"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="#" class="delete-action"><i class="fas fa-trash"></i> Hapus</a>
+                        </div>
+                        <img src="Gambar/rinjani.jpeg" alt="Galeri Foto 1">
+                        <div class="gallery-caption">Keindahan Dunia Dari Rinjani</div>
+                    </div>
+                    
+                    <div class="gallery-card" data-category="Gunung">
+                        <button class="options-btn" aria-label="Opsi">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <div class="card-dropdown">
+                            <a href="#" class="edit-action"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="#" class="delete-action"><i class="fas fa-trash"></i> Hapus</a>
+                        </div>
+                        <img src="Gambar/jaya wijaya.jpeg" alt="Galeri Foto 2">
+                        <div class="gallery-caption">Puncak Salju Jayawijaya</div>
+                    </div>
+                    
+                    <div class="gallery-card" data-category="Gunung">
+                        <button class="options-btn" aria-label="Opsi">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <div class="card-dropdown">
+                            <a href="#" class="edit-action"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="#" class="delete-action"><i class="fas fa-trash"></i> Hapus</a>
+                        </div>
+                        <img src="Gambar/kerinci.jpeg" alt="Galeri Foto 3">
+                        <div class="gallery-caption">Pendakian Gunung Kerinci</div>
+                    </div>
+                    
+                    <div class="gallery-card" data-category="Hutan">
+                        <button class="options-btn" aria-label="Opsi">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <div class="card-dropdown">
+                            <a href="#" class="edit-action"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="#" class="delete-action"><i class="fas fa-trash"></i> Hapus</a>
+                        </div>
+                        <img src="Gambar/kalimantan.jpg" alt="Galeri Foto 4">
+                        <div class="gallery-caption">Eksplorasi Hutan Kalimantan</div>
+                    </div>
+                    
+                    <div class="gallery-card" data-category="Danau">
+                        <button class="options-btn" aria-label="Opsi">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <div class="card-dropdown">
+                            <a href="#" class="edit-action"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="#" class="delete-action"><i class="fas fa-trash"></i> Hapus</a>
+                        </div>
+                        <img src="Gambar/labuan cermin.jpeg" alt="Galeri Foto 5">
+                        <div class="gallery-caption">Danau Labuan Cermin - Biduk-Biduk</div>
+                    </div>
+                    
+                    <div class="gallery-card" data-category="Air Terjun">
+                        <button class="options-btn" aria-label="Opsi">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <div class="card-dropdown">
+                            <a href="#" class="edit-action"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="#" class="delete-action"><i class="fas fa-trash"></i> Hapus</a>
+                        </div>
+                        <img src="Gambar/Coban Talun.jpeg" alt="Galeri Foto 6">
+                        <div class="gallery-caption">Momen indah di Coban Talun</div>
+                    </div>
+                    
+                    <div class="gallery-card" data-category="Pantai">
+                        <button class="options-btn" aria-label="Opsi">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <div class="card-dropdown">
+                            <a href="#" class="edit-action"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="#" class="delete-action"><i class="fas fa-trash"></i> Hapus</a>
+                        </div>
+                        <img src="Gambar/pantai pink.jpeg" alt="Galeri Foto 7">
+                        <div class="gallery-caption">Keindahan Pantai Pink Lombok</div>
+                    </div>
+                </section>
+                
+                <footer class="bottom-footer">
+                    <a href="#">Customer Service</a>
+                    <a href="#">Tentang Kami</a>
+                </footer>
+                
+            </div>
+        </div>
+    </div>
+
+    <div id="uploadModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3>Unggah Foto & Tambahkan Deskripsi</h3>
+            <form id="uploadForm">
+                <label for="modalFileUpload">Pilih File Gambar:</label>
+                <input type="file" id="modalFileUpload" accept="image/*" required>
+                
+                <label for="photoCaption">Deskripsi/Caption (Maks. 50 Karakter):</label>
+                <input type="text" id="photoCaption" maxlength="50" placeholder="Contoh: Pemandangan saat matahari terbit">
+                
+                <label for="photoCategory">Kategori Wisata Alam:</label>
+                <select id="photoCategory" required>
+                    <option value="" disabled selected>Pilih Kategori</option>
+                    <option value="Gunung">Gunung</option>
+                    <option value="Pantai">Pantai & Laut</option>
+                    <option value="Danau">Danau</option>
+                    <option value="Air Terjun">Air Terjun</option>
+                    <option value="Hutan">Hutan & Konservasi</option>
+                    <option value="Lainnya">Lainnya</option>
+                </select>
+
+                <div style="margin-top: 20px;">
+                    <button type="submit" id="submitUploadBtn">Unggah</button>
+                    <button type="button" id="cancelUploadBtn">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Dapatkan elemen-elemen DOM
+            const openModalBtn = document.getElementById('openModalBtn');
+            const uploadModal = document.getElementById('uploadModal');
+            const closeBtn = document.querySelector('.close-btn');
+            const cancelUploadBtn = document.getElementById('cancelUploadBtn');
+            const uploadForm = document.getElementById('uploadForm');
+            const fileUploadInput = document.getElementById('modalFileUpload');
+            const captionInput = document.getElementById('photoCaption');
+            const categoryInput = document.getElementById('photoCategory'); 
+            const galleryGrid = document.getElementById('galleryGrid');
+
+            // Fungsi untuk membuka modal
+            openModalBtn.addEventListener('click', function() {
+                uploadModal.style.display = 'block';
+            });
+
+            // Fungsi untuk menutup modal
+            function closeModal() {
+                uploadModal.style.display = 'none';
+                // Reset form setelah ditutup
+                uploadForm.reset();
+            }
+
+            // Menutup modal saat tombol X atau Batal diklik
+            closeBtn.addEventListener('click', closeModal);
+            cancelUploadBtn.addEventListener('click', closeModal);
+
+            // Menutup modal saat klik di luar area modal
+            window.addEventListener('click', function(event) {
+                if (event.target === uploadModal) {
+                    closeModal();
+                }
+            });
+
+            // Handler saat form di-submit
+            uploadForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Mencegah submit form default
+
+                const file = fileUploadInput.files[0];
+                const caption = captionInput.value.trim() || "Tidak ada deskripsi";
+                const category = categoryInput.value; 
+
+                // Validasi input
+                if (!file) {
+                    alert('Harap pilih file gambar terlebih dahulu.');
+                    return;
+                }
+                if (!category) {
+                    alert('Harap pilih Kategori Wisata Alam.');
+                    return;
+                }
+                
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const newPhotoURL = e.target.result; 
+
+                    // 1. Buat elemen <div> untuk kartu baru
+                    const newGalleryCard = document.createElement('div');
+                    newGalleryCard.className = 'gallery-card';
+                    newGalleryCard.setAttribute('data-category', category);
+
+                    // --- Tambahan untuk Tombol Opsi (Tiga Titik) ---
+                    const optionsBtn = document.createElement('button');
+                    optionsBtn.className = 'options-btn';
+                    optionsBtn.setAttribute('aria-label', 'Opsi');
+                    optionsBtn.innerHTML = '<i class="fas fa-ellipsis-v"></i>';
+                    newGalleryCard.appendChild(optionsBtn);
+
+                    const dropdown = document.createElement('div');
+                    dropdown.className = 'card-dropdown';
+                    dropdown.innerHTML = `
+                        <a href="#" class="edit-action"><i class="fas fa-edit"></i> Edit</a>
+                        <a href="#" class="delete-action"><i class="fas fa-trash"></i> Hapus</a>
+                    `;
+                    newGalleryCard.appendChild(dropdown);
+                    // --- Akhir Tambahan ---
+                    
+                    // 2. Buat elemen <img> untuk foto
+                    const newImage = document.createElement('img');
+                    newImage.src = newPhotoURL;
+                    newImage.alt = `Foto dari Kategori ${category}`;
+                    
+                    // 3. Buat elemen <div> untuk caption
+                    const newCaptionDiv = document.createElement('div');
+                    newCaptionDiv.className = 'gallery-caption';
+                    newCaptionDiv.textContent = caption; 
+                    
+                    // 4. Masukkan gambar dan caption ke dalam kartu
+                    newGalleryCard.appendChild(newImage);
+                    newGalleryCard.appendChild(newCaptionDiv);
+
+                    // 5. Sisipkan kartu baru tepat setelah kartu "Tambah Foto" (openModalBtn)
+                    galleryGrid.insertBefore(newGalleryCard, openModalBtn.nextSibling);
+
+                    // 6. Tutup modal
+                    closeModal(); 
+                };
+
+                // Baca file sebagai Data URL
+                reader.readAsDataURL(file);
+            });
+
+            // --- Fungsionalitas Opsi (Edit & Hapus) Menggunakan Event Delegation ---
+            galleryGrid.addEventListener('click', function(event) {
+                const target = event.target;
+                
+                // 1. Logika untuk TOGGLE Dropdown (ketika tombol Opsi diklik)
+                const optionsButton = target.closest('.options-btn');
+                if (optionsButton) {
+                    event.preventDefault(); 
+                    const dropdown = optionsButton.nextElementSibling; // Dropdown adalah elemen berikutnya
+                    
+                    // Tutup semua dropdown yang terbuka
+                    document.querySelectorAll('.card-dropdown.active').forEach(d => {
+                        if (d !== dropdown) {
+                            d.classList.remove('active');
+                        }
+                    });
+
+                    // Toggle dropdown yang diklik
+                    if (dropdown && dropdown.classList.contains('card-dropdown')) {
+                        dropdown.classList.toggle('active');
+                    }
+                    return; // Hentikan propagasi untuk menghindari trigger window.click di bawah
+                }
+                
+                // 2. Logika untuk Aksi HAPUS
+                const deleteAction = target.closest('.delete-action');
+                if (deleteAction) {
+                    event.preventDefault(); 
+                    
+                    const galleryCard = deleteAction.closest('.gallery-card');
+                    
+                    if (galleryCard) {
+                        // Minta konfirmasi sebelum menghapus
+                        if (confirm('Anda yakin ingin menghapus foto ini dari galeri Anda? Tindakan ini tidak dapat dibatalkan.')) {
+                            
+                            // *** PERUBAHAN UTAMA: LANGSUNG HAPUS ELEMEN ***
+                            galleryCard.remove();
+                            // Grid akan otomatis mengatur ulang (reflow) kartu yang tersisa.
+                            // *** AKHIR PERUBAHAN UTAMA ***
+                        }
+                    }
+                    // Tutup dropdown setelah aksi
+                    deleteAction.closest('.card-dropdown')?.classList.remove('active');
+                    return;
+                }
+
+                // 3. Logika untuk Aksi EDIT (Placeholder)
+                const editAction = target.closest('.edit-action');
+                if (editAction) {
+                     event.preventDefault();
+                     alert('Fungsi Edit: Di sini Anda dapat membuka modal untuk mengubah deskripsi dan kategori foto. (Fitur Edit belum diimplementasikan)');
+                     // Tutup dropdown setelah aksi 
+                     editAction.closest('.card-dropdown')?.classList.remove('active');
+                     return;
+                }
+            });
+
+            // Menutup dropdown saat klik di luar area tombol opsi atau menu
+            window.addEventListener('click', function(event) {
+                if (!event.target.closest('.options-btn') && !event.target.closest('.card-dropdown')) {
+                    document.querySelectorAll('.card-dropdown.active').forEach(d => {
+                        d.classList.remove('active');
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

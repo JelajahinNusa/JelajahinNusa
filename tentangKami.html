@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang Kami - JelajahinNusa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* CSS Variables*/
+        :root {
+            --dark-bg: #000000;
+            --dark-bg-secondary: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #AAAAAA;
+            --accent-green: #1F4529;
+            --card-overlay: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 100%);
+        }
+
+        /* Reset & Global */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            zoom: 90%; 
+        }
+
+        /* Latar Belakang */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+        
+        /* --- Konten "Tentang Kami" Khusus --- */
+        .about-content {
+            padding: 50px 0;
+            text-align: justify;
+            border-radius: 20px;
+            margin:  auto;
+            max-width: 800px;
+        }
+        .about-content h1 {
+            font-size: 40px;
+            margin-bottom: 30px;
+            color: var(--text-primary);
+            text-align: center;
+        }
+        .about-content p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            color: var(--text-primary);
+            padding: 0 
+        }
+
+        /* Tombol & Judul Umum */
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background-color: var(--text-primary);
+            color: black;
+        }
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* === Header / Navbar === */
+        header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo i {
+            color: white;
+            font-size: 28px;
+        }
+        .nav-menu ul {
+            display: flex;
+            gap: 50px;
+        }
+        .nav-menu li a {
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .nav-menu li a:hover,
+        .nav-menu li a.active {
+            color: var(--text-primary);
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        /* START: Added Navbar/Profile styles from LandingPage.html */
+        .user-profile {
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: 0.3s;
+        }
+        .user-profile:hover {
+            color: var(--text-secondary);
+        }
+        /* Sembunyikan item "Profil" di Nav Menu untuk Desktop */
+        .nav-profile-mobile {
+            display: none; 
+        }
+        /* END: Added Navbar/Profile styles from LandingPage.html */
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-primary);
+            padding: 5px;
+            z-index: 1001;
+        }
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: transparent;
+            border: 1px solid var(--text-secondary);
+            border-radius: 30px;
+            padding: 8px 15px;
+        }
+        .search-bar input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            margin-left: 10px;
+            font-family: 'Poppins', sans-serif;
+        }
+        .search-bar i {
+            color: var(--text-secondary);
+        }
+        
+        /* === Footer === */
+        footer {
+            background-color: var(--dark-bg-secondary);
+            padding-top: 80px;
+            margin-top: 80px;
+        }
+        
+        /* Footer Subscribe */
+        .footer-subscribe {
+            background-color: #222;
+            border-radius: 20px;
+            padding: 50px;
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        .footer-subscribe h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .footer-subscribe p {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+        .subscribe-form {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .subscribe-form input {
+            flex: 1;
+            padding: 15px 25px;
+            border-radius: 15px;
+            border: none;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
+        }
+        .subscribe-form button {
+            padding: 15px 30px;
+            border-radius: 15px;
+        }
+        
+        /* Footer Main */
+        .footer-main {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.5fr 1fr;
+            gap: 50px;
+            padding-bottom: 60px;
+        }
+        .footer-col .logo {
+            margin-bottom: 20px;
+        }
+        .footer-col p {
+            color: var(--text-secondary);
+            max-width: 300px;
+        }
+        .footer-col h4 {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 25px;
+        }
+        .footer-col ul li {
+            margin-bottom: 15px;
+        }
+        .footer-col ul li a,
+        .footer-col ul li span { /* Tambahkan span untuk nomor telepon/teks non-link */
+            color: var(--text-secondary);
+            transition: 0.3s;
+        }
+        .footer-col ul li a:hover {
+            color: var(--text-primary);
+        }
+        .social-icons {
+            display: flex;
+            gap: 20px;
+        }
+        .social-icons a {
+            font-size: 20px;
+            color: var(--text-secondary);
+            transition: 0.3s;
+        }
+        .social-icons a:hover {
+            color: var(--accent-green);
+        }
+
+        /* Footer Bottom */
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding: 30px 0;
+            text-align: center;
+        }
+        .footer-bottom p {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+        
+        @media (max-width: 768px) {
+            /* Tampilkan Tombol Toggle dan Sembunyikan Search Bar */
+            .menu-toggle {
+                display: block; 
+            }
+            
+            /* Menyesuaikan Navbar untuk Mobile */
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -70%;
+                width: 70%;
+                height: 100vh;
+                background-color: var(--dark-bg-secondary);
+                padding-top: 100px;
+                transition: right 0.3s ease;
+                z-index: 999;
+            }
+            .nav-menu ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .footer-main {
+                grid-template-columns: 1fr;
+            }
+            .subscribe-form {
+                flex-direction: column;
+            }
+            .about-content {
+                padding: 50px 0;
+                margin: 20px auto;
+            }
+            .about-content h1 {
+                font-size: 24px;
+            }
+            .about-content p {
+                padding: 0 10px;
+                font-size: 14px;
+            }
+            /* START: Added Profile visibility rules for mobile */
+            .user-profile {
+                display: none; /* Sembunyikan ikon profil desktop di mobile */
+            }
+            
+            .nav-profile-mobile {
+                display: block; /* Tampilkan item "Profil" di Nav Menu untuk Mobile */
+            }
+            /* END: Added Profile visibility rules for mobile */
+        }
+    
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container navbar">
+            <a href="index.html" class="logo">
+                <i class="logo.jpg"></i> <img src="Gambar/logo1.png" height="100px" width="auto">
+            </a>
+            
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="artikel.html">Artikel</a></li>
+                    <li><a href="galeri1.html">Galeri</a></li>
+                    <li><a href="tentangKami.html" class="active">Tentang Kami</a></li>
+                    <li><a href="infoAkun1.html" class="nav-profile-mobile">Profil</a></li> 
+                </ul>
+            </nav>
+            
+            <div class="header-right">
+                <form class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Cari disini...">
+                </form>
+
+                <a href="infoAkun1.html" class="user-profile">
+                    <i class="fas fa-user-circle"></i>
+                </a>
+
+                <div class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="background">
+        <img src="Gambar/hero.jpg" alt="Latar Belakang Pegunungan">
+    </div>
+    
+    <main>
+        <div class="container about-content">
+            <h1>Jelajahi Keindahan Nusantara</h1><br>
+            <p>Selamat datang di JelajahinNusa, katalog wisata Nusantara yang menyediakan informasi lengkap tentang destinasi wisata terbaik di Indonesia. Kami berdedikasi untuk membantu Anda menemukan pengalaman wisata yang tak terlupakan di negeri yang kaya akan budaya dan keindahan alam ini.</p>
+
+            <p>Misi kami adalah untuk menjadi sumber informasi terpercaya dan komprehensif tentang wisata Nusantara, sehingga Anda dapat dengan mudah menemukan dan merencanakan perjalanan wisata yang sesuai dengan minat dan kebutuhan Anda.</p>
+
+            <p>Visi kami adalah untuk menjadi katalog wisata online terkemuka di Indonesia, yang tidak hanya menyediakan informasi tentang destinasi wisata, tetapi juga membantu mempromosikan pariwisata Indonesia dan meningkatkan kesadaran akan pentingnya melestarikan budaya dan lingkungan.</p>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-subscribe">
+                <h3>Ulasan Pengguna</h3>
+                <p>Berikan Ulasan Terbaik Anda Terhadap Website Kami.</p>
+                <form class="subscribe-form">
+                    <input type="text" placeholder="Tuliskan Ulasan Anda...">
+                    <button type="submit" class="btn btn-primary">Kirim</button>
+                </form>
+            </div>
+            
+            <div class="footer-main">
+                <div class="footer-col">
+                    <a href="#" class="logo">Alamat</a>
+                    <p>JL. Tanimbar No.22, Kasin, Kec. Klojen, Kota Malang, Jawa Timur 65117</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Menu</h4>
+                    <ul>
+                        <li><a href="LandingPage.html">Beranda</a></li>
+                        <li><a href="#artikel">Artikel</a></li>
+                        <li><a href="galeri1.html">Galeri</a></li>
+                        <li><a href="tentangKami.html">Tentang Kami</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Hubungi Kami</h4>
+                    <ul>
+                        <li><span><i class="fas fa-envelope"></i> jelajahinusa@gmail.com</span></li>
+                        <li><span><i class="fab fa-whatsapp"></i> 086288275353 (Revan)</span></li>
+                        <li><span><i class="fab fa-whatsapp"></i> 089209892410 (Baraka)</span></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Social Media</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 JelajahinNusa. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // --- Fungsionalitas Toggle Menu Mobile ---
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.querySelector('.nav-menu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+
+            const icon = menuToggle.querySelector('i');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+        
+        document.querySelectorAll('.nav-menu ul li a').forEach(link => {
+            link.addEventListener('click', () => {
+                 if (window.innerWidth <= 768) {
+                     navMenu.classList.remove('active');
+                     const icon = menuToggle.querySelector('i');
+                     icon.classList.remove('fa-times');
+                     icon.classList.add('fa-bars');
+                 }
+            });
+        });
+    </script>
+</body>
+</html>

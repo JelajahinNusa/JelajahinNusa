@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artikel Pantai & Laut - JelajahinNusa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* CSS Variables - Disalin dari artikel.html */
+        :root {
+            --dark-bg: #000000;
+            --dark-bg-secondary: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #AAAAAA;
+            --accent-green: #1F4529;
+            --card-overlay: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 100%);
+        }
+
+        /* Reset & Global - Disalin dari artikel.html */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            zoom: 90%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 0 10%;
+        }
+
+        /* Tombol */
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: var(--text-primary);
+            color: black;
+        }
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+        
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Navbar - Disalin dari artikel.html */
+        header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo i {
+            color: white;
+            font-size: 28px;
+            
+        }
+
+        .nav-menu ul {
+            display: flex;
+            gap: 50px;
+        }
+
+        .nav-menu li a {
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .nav-menu li a:hover,
+        .nav-menu li a.active {
+            color: var(--text-primary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .user-profile {
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: 0.3s;
+        }
+        .user-profile:hover {
+            color: var(--text-secondary);
+        }
+        .nav-profile-mobile {
+            display: none; 
+        }
+
+        .menu-toggle {
+             display: none;
+             font-size: 24px;
+             cursor: pointer;
+             color: var(--text-primary);
+             padding: 5px;
+             z-index: 1001;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: transparent;
+            border: 1px solid var(--text-secondary);
+            border-radius: 30px;
+            padding: 8px 15px;
+        }
+        .search-bar input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            margin-left: 10px;
+            font-family: 'Poppins', sans-serif;
+        }
+        .search-bar i {
+            color: var(--text-secondary);
+        }
+
+        /* Footer - Disalin dari artikel.html */
+        footer {
+            background-color: var(--dark-bg-secondary);
+            padding-top: 80px;
+        }
+        
+        .footer-subscribe {
+            background-color: #222;
+            border-radius: 20px;
+            padding: 50px;
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        .footer-subscribe h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .footer-subscribe p {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+        .subscribe-form {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .subscribe-form input {
+            flex: 1;
+            padding: 15px 25px;
+            border-radius: 15px;
+            border: none;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
+        }
+        .subscribe-form button {
+            padding: 15px 30px;
+            border-radius: 15px;
+        }
+        
+        .footer-main {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.5fr 1fr;
+            gap: 50px;
+            padding-bottom: 60px;
+        }
+        .footer-col .logo {
+            margin-bottom: 20px;
+        }
+        .footer-col p {
+            color: var(--text-secondary);
+            max-width: 300px;
+        }
+        .footer-col h4 {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 25px;
+        }
+        .footer-col ul li {
+            margin-bottom: 15px;
+        }
+        .footer-col ul li a {
+            color: var(--text-secondary);
+            transition: 0.3s;
+        }
+        .footer-col ul li a:hover {
+            color: var(--text-primary);
+        }
+        .footer-col ul li span { /* Tambahkan span untuk nomor telepon/teks non-link */
+            color: var(--text-secondary);
+            transition: 0.3s;
+        }
+        .social-icons {
+            display: flex;
+            gap: 20px;
+        }
+        .social-icons a {
+            font-size: 20px;
+            color: var(--text-secondary);
+            transition: 0.3s;
+        }
+        .social-icons a:hover {
+            color: var(--accent-green);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding: 30px 0;
+            text-align: center;
+        }
+        .footer-bottom p {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        /* === STYLES SPESIFIK UNTUK HALAMAN ARTIKEL (REVISI KE LAYOUT MEMANJANG) === */
+        .article-list {
+            padding: 50px 0;
+        }
+
+        /* Container untuk artikel (tidak lagi grid) */
+        .article-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px; /* Jarak antar artikel memanjang */
+        }
+
+        /* Card Artikel memanjang ke samping (Horizontal Layout) */
+        .article-card-horizontal {
+            display: flex;
+            background-color: var(--dark-bg-secondary);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            align-items: center; /* Menyelaraskan item vertikal */
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .article-card-horizontal:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .article-img-container {
+            flex: 0 0 350px; /* Lebar gambar tetap untuk desktop (sekitar 30%) */
+            height: 250px; /* Tinggi gambar yang lebih ringkas dari versi awal */
+            overflow: hidden;
+        }
+
+        .article-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .article-card-horizontal:hover .article-img {
+            transform: scale(1.05); /* Efek zoom saat hover */
+        }
+
+        .article-content {
+            flex: 1; /* Konten mengambil sisa ruang */
+            padding: 30px 40px;
+        }
+
+        .article-content h3 {
+            font-size: 24px; /* Ukuran judul */
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+        .article-content p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-size: 16px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .article-meta {
+            font-size: 12px; 
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+        .article-meta i {
+            margin-right: 5px;
+        }
+
+        .article-content .btn {
+            padding: 10px 25px;
+            font-size: 14px;
+        }
+        
+        /* Gaya untuk tombol Baca Lebih Banyak yang baru ditambahkan */
+        .load-more-container {
+            text-align: center; /* Memastikan tombol berada di tengah */
+            padding: 20px 0 0; /* Memberi jarak dari card artikel di atasnya */
+        }
+
+        .btn-load-more {
+            min-width: 200px; /* Lebar minimum agar tombol terlihat jelas */
+            padding: 12px 30px;
+            font-size: 16px;
+        }
+
+        /* Responsive Styles (Untuk layout Horizontal) */
+        @media (max-width: 992px) {
+            .footer-main {
+                grid-template-columns: 1fr 1fr;
+            }
+            .article-card-horizontal {
+                flex-direction: column; /* Ubah menjadi vertikal di tablet/mobile */
+                align-items: stretch;
+            }
+            .article-img-container {
+                flex: none;
+                width: 100%;
+                height: 220px; /* Gambar full width */
+            }
+            .article-content {
+                padding: 25px;
+            }
+            .article-content h3 {
+                font-size: 20px;
+            }
+        }
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 24px;
+            }
+            .nav-menu { /* Aturan untuk mobile menu */
+                position: fixed;
+                top: 0;
+                right: -70%;
+                width: 70%;
+                height: 100vh;
+                background-color: var(--dark-bg-secondary);
+                padding-top: 100px;
+                transition: right 0.3s ease;
+                z-index: 999;
+            }
+            .nav-menu ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+            .nav-menu.active {
+                right: 0;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .user-profile {
+                display: none;
+            }
+            .nav-profile-mobile {
+                display: block;
+            }
+            .footer-main {
+                grid-template-columns: 1fr;
+            }
+            .subscribe-form {
+                flex-direction: column;
+            }
+        }
+        @media (max-width: 576px) {
+            .article-container {
+                gap: 25px;
+            }
+            .article-img-container {
+                height: 180px;
+            }
+            .article-content h3 {
+                font-size: 18px;
+            }
+            .article-content p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container navbar">
+            <a href="index.html" class="logo">
+                <i class="logo.jpg"></i> <img src="Gambar/logo1.png" height="100px" width="auto">
+            </a>
+            
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="artikel.html" class="active">Artikel</a></li>
+                    <li><a href="galeri1.html">Galeri</a></li>
+                    <li><a href="tentangKami.html">Tentang Kami</a></li>
+                    <li><a href="Daftar.html" class="nav-profile-mobile">Profil</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-right">
+                <form class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Cari disini...">
+                </form>
+
+                <a href="Daftar.html" class="user-profile">
+                    <i class="fas fa-user-circle"></i>
+                </a>
+
+                <div class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="article-list">
+            <div class="container">
+                <h2 class="section-title">Artikel Destinasi Wisata Pantai & Laut</h2>
+                
+                <div class="article-container">
+                    
+                    <a href="artikelPulau.html" class="article-card-horizontal">
+                        <div class="article-img-container">
+                            <img src="Gambar/hero3.jpg" class="article-img">
+                        </div>
+                        <div class="article-content">
+                            <p class="article-meta"><i class="fas fa-map-marker-alt"i></i> Pantai & Laut | Papua Barat</p>
+                            <h3>Raja Ampat: Surga Bawah Laut dengan Keanekaragaman Hayati Tertinggi</h3>
+                            <p>Kumpulan 4 pulau utama, terkenal dengan terumbu karang yang sehat dan kehidupan laut tak tertandingi.</p>
+                            <span class="btn btn-primary">Baca Selengkapnya</span>
+                        </div>
+                    </a>
+
+                    <a href="#" class="article-card-horizontal">
+                        <div class="article-img-container">
+                            <img src="Gambar/pantai pink.jpeg" class="article-img">
+                        </div>
+                        <div class="article-content">
+                            <p class="article-meta"><i class="fas fa-map-marker-alt"></i> Pantai & Laut | Nusa Tenggara Timur</p>
+                            <h3>Labuan Bajo: Gerbang Komodo dan Eksotisme Pulau Padar</h3>
+                            <p>Destinasi yang terkenal sebagai gerbang menuju Taman Nasional Komodo dan keindahan Pink Beach.</p>
+                            <span class="btn btn-primary">Baca Selengkapnya</span>
+                        </div>
+                    </a>
+                    
+                    <a href="artikelPantai.html" class="article-card-horizontal">
+                        <div class="article-img-container">
+                            <img src="Gambar/tanjung tinggi.jpeg" class="article-img">
+                        </div>
+                        <div class="article-content">
+                            <p class="article-meta"><i class="fas fa-map-marker-alt"></i> Pantai & Laut | Belitung</p>
+                            <h3>Tanjung Tinggi: Pesona Batu Granit Raksasa, Lokasi Laskar Pelangi</h3>
+                            <p>Pantai ikonik di Belitung yang terkenal dengan gugusan batu granit besar, menjadi lokasi syuting film Laskar Pelangi.</p>
+                            <span class="btn btn-primary">Baca Selengkapnya</span>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="article-card-horizontal">
+                        <div class="article-img-container">
+                            <img src="Gambar/pantai ora.jpeg" class="article-img">
+                        </div>
+                        <div class="article-content">
+                            <p class="article-meta"><i class="fas fa-map-marker-alt"></i> Pantai & Laut | Maluku</p>
+                            <h3>Pantai Ora: Keajaiban Tersembunyi di Jantung Pulau Seram (Maladewa Indonesia)</h3>
+                            <p>Destinasi bak Maladewa di Indonesia Timur, terkenal dengan *cottage* kayu di atas air dan air laut yang jernih memukau.</p>
+                            <span class="btn btn-primary">Baca Selengkapnya</span>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="article-card-horizontal">
+                        <div class="article-img-container">
+                            <img src="Gambar/Wakatobi.jpg" class="article-img">
+                        </div>
+                        <div class="article-content">
+                            <p class="article-meta"><i class="fas fa-map-marker-alt"></i> Pantai & Laut | Sulawesi Tenggara</p>
+                            <h3>Wakatobi: Surga Penyelam di Jantung Coral Triangle Dunia</h3>
+                            <p>Taman Nasional Laut yang diakui sebagai salah satu pusat keanekaragaman hayati laut dunia.</p>
+                            <span class="btn btn-primary">Baca Selengkapnya</span>
+                        </div>
+                    </a>
+
+                    <a href="#" class="article-card-horizontal">
+                        <div class="article-img-container">
+                            <img src="Gambar/pantaisengigi.jpg" class="article-img">
+                        </div>
+                        <div class="article-content">
+                            <p class="article-meta"><i class="fas fa-map-marker-alt"></i> Pantai & Laut | Lombok</p>
+                            <h3>Pantai Senggigi: Sunset Terbaik dan Air Laut Tenang di Lombok</h3>
+                            <p>Garis pantai yang indah dengan pemandangan Gunung Agung di Bali saat cuaca cerah. Cocok untuk bersantai dan snorkeling.</p>
+                            <span class="btn btn-primary">Baca Selengkapnya</span>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="article-card-horizontal">
+                        <div class="article-img-container">
+                            <img src="Gambar/derawan.jpg" class="article-img">
+                        </div>
+                        <div class="article-content">
+                            <p class="article-meta"><i class="fas fa-map-marker-alt"></i> Pantai & Laut | Kalimantan Timur</p>
+                            <h3>Derawan: Menyelam Bersama Ubur-Ubur Tanpa Sengat di Danau Kakaban</h3>
+                            <p>Gugusan pulau yang terkenal dengan penyu hijau, pari manta, dan ubur-ubur tidak menyengat di Danau Kakaban.</p>
+                            <span class="btn btn-primary">Baca Selengkapnya</span>
+                        </div>
+                    </a>
+
+                    <a href="#" class="article-card-horizontal">
+                        <div class="article-img-container">
+                            <img src="Gambar/sanur.jpg" class="article-img">
+                        </div>
+                        <div class="article-content">
+                            <p class="article-meta"><i class="fas fa-map-marker-alt"></i> Pantai & Laut | Bali</p>
+                            <h3>Pantai Sanur: Pemandangan Matahari Terbit (Sunrise) di Pulau Dewata</h3>
+                            <p>Pantai dengan ombak tenang yang terkenal sebagai spot terbaik untuk menikmati matahari terbit di Bali.</p>
+                            <span class="btn btn-primary">Baca Selengkapnya</span>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="article-card-horizontal">
+                        <div class="article-img-container">
+                            <img src="Gambar/tigawarna.jpg" class="article-img">
+                        </div>
+                        <div class="article-content">
+                            <p class="article-meta"><i class="fas fa-map-marker-alt"></i> Pantai & Laut | Jawa Timur</p>
+                            <h3>Pantai Tiga Warna: Konservasi Mangrove dengan Gradasi Warna Laut yang Unik</h3>
+                            <p>Dinamakan karena memiliki gradasi warna air laut: biru, hijau, dan coklat. Merupakan kawasan konservasi mangrove dan terumbu karang.</p>
+                            <span class="btn btn-primary">Baca Selengkapnya</span>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="article-card-horizontal">
+                        <div class="article-img-container">
+                            <img src="Gambar/nusapenida.jpg" class="article-img">
+                        </div>
+                        <div class="article-content">
+                            <p class="article-meta"><i class="fas fa-map-marker-alt"></i> Pantai & Laut | Bali</p>
+                            <h3>Nusa Penida: Tebing Kelingking dan Spot Manta Point yang Memukau</h3>
+                            <p>Pulau kecil di tenggara Bali, terkenal dengan tebing-tebing dramatis seperti Kelingking Beach dan spot diving Manta Point.</p>
+                            <span class="btn btn-primary">Baca Selengkapnya</span>
+                        </div>
+                    </a>
+                    
+                </div>
+                
+                <div class="load-more-container">
+                    <button class="btn btn-outline btn-load-more">Lihat Artikel Lainnya</button>
+                </div>
+                
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-subscribe">
+                <h3>Ulasan Pengguna</h3>
+                <p>Berikan Ulasan Terbaik Anda Terhadap Website Kami.</p>
+                <form class="subscribe-form">
+                    <input type="text" placeholder="Tuliskan Ulasan Anda...">
+                    <button type="submit" class="btn btn-primary">Kirim</button>
+                </form>
+            </div>
+            
+            <div class="footer-main">
+                <div class="footer-col">
+                    <a href="index.html" class="logo">
+                        <i class="logo.jpg"></i>
+                        Alamat
+                    </a>
+                    <p>JL. Tanimbar No.22, Kasin, Kec. Klojen, Kota Malang, Jawa Timur 65117</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Menu</h4>
+                    <ul>
+                        <li><a href="index.html">Beranda</a></li>
+                        <li><a href="artikel.html">Artikel</a></li>
+                        <li><a href="galeri1.html">Galeri</a></li>
+                        <li><a href="tentangKami.html">Tentang Kami</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Hubungi Kami</h4>
+                    <ul>
+                        <li><span><i class="fas fa-envelope"></i> jelajahinusa@gmail.com</span></li>
+                        <li><span><i class="fab fa-whatsapp"></i> 086288275353 (Revan)</span></li>
+                        <li><span><i class="fab fa-whatsapp"></i> 089209892410 (Baraka)</span></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Social Media</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 JelajahinNusa. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.querySelector('.nav-menu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+
+            const icon = menuToggle.querySelector('i');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+        
+        document.querySelectorAll('.nav-menu ul li a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                const icon = menuToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            });
+        });
+    </script>
+</body>
+</html>

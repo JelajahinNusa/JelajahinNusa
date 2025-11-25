@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Artikel - Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --dark-bg: #000000;
+            --dark-bg-secondary: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #AAAAAA;
+            --accent-green: #1F4529;
+            --sidebar-width: 250px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            zoom: 90% ;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .account-page {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* === Sidebar Navigasi === */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--dark-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 30px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            border-right: 1px solid #1A1A1A;
+        }
+
+        .sidebar-top {
+            padding: 0 20px;
+        }
+
+        .sidebar .logo {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .sidebar .logo img {
+            height: 30px;
+            width: auto;
+        }
+        
+        .sidebar h4 {
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 10px 0;
+            margin-top: 10px;
+        }
+
+        .nav-menu-sidebar a {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            margin: 5px 0;
+            color: var(--text-secondary);
+            transition: background-color 0.3s, color 0.3s;
+            border-radius: 8px;
+        }
+        .nav-menu-sidebar a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-menu-sidebar a.active {
+            background-color: var(--dark-bg-secondary);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        
+        .nav-menu-sidebar i {
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Perubahan untuk menempatkan tombol Log Out sebagai menu item di bagian paling bawah */
+        .sidebar-bottom {
+            padding: 0 20px;
+            width: 100%; 
+        }
+
+        .sidebar-bottom .logout-link { 
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            margin: 5px 0;
+            color: red;
+            transition: background-color 0.3s, color 0.3s;
+            border-radius: 8px;
+            background-color: transparent; 
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .sidebar-bottom .logout-link:hover {
+            background-color: var(--dark-bg-secondary);
+            color: red;
+        }
+
+        .sidebar-bottom .logout-link i {
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+            color: inherit; 
+        }
+        
+        /* === Konten Utama (Main Content) === */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex-grow: 1;
+            padding: 0;
+            position: relative;
+        }
+        
+        /* Latar Belakang Gambar */
+        .background-image-container {
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-width);
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            background-image: url('gambar/jawa.jpg'); 
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.4) grayscale(0.2);
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            padding: 0 40px;
+        }
+
+        /* === Navbar / Header Admin === */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 50px;
+        }
+        
+        .search-bar-main {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 10px 20px;
+            max-width: 400px;
+            width: 100%;
+        }
+        .search-bar-main input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            margin-left: 10px;
+            font-family: 'Poppins', sans-serif;
+            flex-grow: 1;
+        }
+        .search-bar-main i {
+            color: var(--text-secondary);
+        }
+        
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .admin-profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #555555;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .admin-profile-pic i {
+            font-size: 20px;
+            color: var(--text-primary);
+        }
+        .admin-profile-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        /* === Bagian Manajemen Artikel === */
+        .admin-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .article-management-section {
+            background-color: rgba(0, 0, 0, 0.75);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            margin-bottom: 50px;
+        }
+        
+        .article-management-section h3 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        /* Menambahkan tombol 'Tambah Artikel' */
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .add-article-button {
+            padding: 10px 20px;
+            background-color: var(--accent-green); /* Hijau gelap */
+            color: var(--text-primary);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .add-article-button:hover {
+            background-color: #2e623b; /* Sedikit lebih terang saat hover */
+        }
+        
+        .article-list-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .article-list-table thead tr {
+            background-color: var(--text-primary);
+            color: var(--accent-green);
+            font-weight: 600;
+            font-size: 14px;
+            text-align: left;
+        }
+        
+        .article-list-table th, .article-list-table td {
+            padding: 15px;
+            vertical-align: middle; 
+        }
+        
+        /* Baris data */
+        .article-list-table tbody tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Warna latar belakang selang-seling */
+        .article-list-table tbody tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.03); 
+        }
+        .article-list-table tbody tr:nth-child(odd) {
+            background-color: rgba(255, 255, 255, 0.0); 
+        }
+        
+        /* Gaya untuk Status Artikel */
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: 500;
+            font-size: 13px;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .status-published {
+            background-color: #27AE60; /* Hijau */
+            color: #FFFFFF;
+        }
+
+        .status-draft {
+            background-color: #F39C12; /* Kuning/Oranye */
+            color: #FFFFFF;
+        }
+        
+        /* Kolom Aksi */
+        .action-buttons {
+            display: flex;
+            justify-content: center; 
+            gap: 15px;
+            font-size: 18px;
+        }
+        
+        .action-buttons i {
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .action-buttons .fa-pen-to-square {
+            color: #AAAAAA; 
+        }
+        .action-buttons .fa-circle-xmark {
+            color: #AAAAAA; 
+        }
+        .action-buttons .fa-pen-to-square:hover {
+            color: #1F4529; 
+        }
+        .action-buttons .fa-circle-xmark:hover {
+            color: #C0392B; 
+        }
+        
+        /* Navigasi Halaman (Pagination) */
+        .pagination {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-top: 20px;
+        }
+        .pagination i {
+            margin-left: 10px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .pagination i:hover {
+            color: var(--text-primary);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="account-page">
+        <aside class="sidebar">
+            <div class="sidebar-top">
+                <a href="index.html" class="logo">
+                    JelajahinNusa
+                </a>
+                
+                <h4>Dashboard Admin</h4>
+                <nav class="nav-menu-sidebar">
+                    <a href="dashboardAdmin1.html"><i class="fas fa-users"></i> <span class="sidebar-link-text">Manajemen Pengguna</span></a>
+                    <a href="dashboardAdmin2.html" class="active"><i class="fas fa-file-invoice"></i> <span class="sidebar-link-text">Manajemen Artikel</span></a>
+                    <a href="dashboardAdmin3.html"><i class="fas fa-gear"></i> <span class="sidebar-link-text">Pengaturan</span></a>
+                    <a href="dashboardAdmin4.html"><i class="fas fa-comment-dots"></i> <span class="sidebar-link-text">Ulasan Pengguna</span></a>
+                </nav>
+            </div>
+            
+            <br><br><br><br>
+            <div class="sidebar-bottom"><br><br>
+                <a href="loginAdmin.html" class="logout-link" title="Keluar">
+                    <i class="fas fa-sign-out-alt"></i> Keluar
+                </a>
+            </div>
+        </aside>
+
+        <div class="main-content">
+            <div class="background-image-container">
+            </div>
+
+            <div class="content-wrapper">
+                
+                <div class="main-header">
+                    <form class="search-bar-main">
+                        <input type="text" placeholder="Cari artikel...">
+                        <i class="fas fa-search"></i>
+                    </form>
+                    
+                    <div class="admin-profile">
+                        <div class="admin-profile-pic">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <span class="admin-profile-name">Admin 1</span>
+                    </div>
+                </div>
+
+                <section class="article-management-section">
+                    <div class="article-header">
+                        <h3>Daftar Artikel</h3>
+                        <button class="add-article-button">
+                            <i class="fas fa-plus-circle"></i> Tambah Artikel Baru
+                        </button>
+                    </div>
+                    
+                    <table class="article-list-table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Judul Artikel</th>
+                                <th>Penulis</th>
+                                <th>Tanggal Ditambahkan</th>
+                                <th>Status</th>
+                                <th colspan="2"></th> 
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Mendaki Rinjani: Menatap Danau Segara Anak</td>
+                                <td>Bessie Cooper</td>
+                                <td>2025-11-20</td>
+                                <td><span class="status-badge status-published">Terbit</span></td>
+                                <td class="action-buttons">
+                                    <i class="fas fa-pen-to-square" title="Edit"></i>
+                                </td>
+                                <td class="action-buttons">
+                                    <i class="fas fa-circle-xmark" title="Hapus"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Danau Toba: Kaldera Raksasa di Jantung Sumatra</td>
+                                <td>Jenny Wilson</td>
+                                <td>2025-11-18</td>
+                                <td><span class="status-badge status-published">Terbit</span></td>
+                                <td class="action-buttons">
+                                    <i class="fas fa-pen-to-square" title="Edit"></i>
+                                </td>
+                                <td class="action-buttons">
+                                    <i class="fas fa-circle-xmark" title="Hapus"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Labuan Cermin: Danau Dua Rasa dengan Kejernihan Fantastis</td>
+                                <td>Kathryn Murphy</td>
+                                <td>2025-11-15</td>
+                                <td><span class="status-badge status-draft">Draf</span></td>
+                                <td class="action-buttons">
+                                    <i class="fas fa-pen-to-square" title="Edit"></i>
+                                </td>
+                                <td class="action-buttons">
+                                    <i class="fas fa-circle-xmark" title="Hapus"></i>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>4</td>
+                                <td>Danau Sentani: Pesona 24 Pulau dan Budaya Emas Hitam</td>
+                                <td>Courtney Henry</td>
+                                <td>2025-11-13</td>
+                                <td><span class="status-badge status-published">Terbit</span></td>
+                                <td class="action-buttons">
+                                    <i class="fas fa-pen-to-square" title="Edit"></i>
+                                </td>
+                                <td class="action-buttons">
+                                    <i class="fas fa-circle-xmark" title="Hapus"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Gili Trawangan: Pesona Tiga Gili Bebas Polusi</td>
+                                <td>Jerome Bell</td>
+                                <td>2025-11-11</td>
+                                <td><span class="status-badge status-published">Terbit</span></td>
+                                <td class="action-buttons">
+                                    <i class="fas fa-pen-to-square" title="Edit"></i>
+                                </td>
+                                <td class="action-buttons">
+                                    <i class="fas fa-circle-xmark" title="Hapus"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>Gunung Semeru: Atap Tertinggi Pulau Jawa dan Pesona Ranu Kumbolo</td>
+                                <td>Wade Warren</td>
+                                <td>2025-11-09</td>
+                                <td><span class="status-badge status-draft">Draf</span></td>
+                                <td class="action-buttons">
+                                    <i class="fas fa-pen-to-square" title="Edit"></i>
+                                </td>
+                                <td class="action-buttons">
+                                    <i class="fas fa-circle-xmark" title="Hapus"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>Dataran Tinggi Dieng: Negeri Para Dewa yang Bersuhu Dingin</td>
+                                <td>Jane Cooper</td>
+                                <td>2025-11-07</td>
+                                <td><span class="status-badge status-published">Terbit</span></td>
+                                <td class="action-buttons">
+                                    <i class="fas fa-pen-to-square" title="Edit"></i>
+                                </td>
+                                <td class="action-buttons">
+                                    <i class="fas fa-circle-xmark" title="Hapus"></i>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>8</td>
+                                <td>Karimunjawa: Pesona Kepulauan dengan Terumbu Karang yang Jernih</td>
+                                <td>Floyd Miles</td>
+                                <td>2025-11-05</td>
+                                <td><span class="status-badge status-published">Terbit</span></td>
+                                <td class="action-buttons">
+                                    <i class="fas fa-pen-to-square" title="Edit"></i>
+                                </td>
+                                <td class="action-buttons">
+                                    <i class="fas fa-circle-xmark" title="Hapus"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td>Pantai Tiga Warna: Konservasi Mangrove dengan Gradasi Warna Laut yang Unik</td>
+                                <td>Kristin Watson</td>
+                                <td>2025-11-03</td>
+                                <td><span class="status-badge status-published">Terbit</span></td>
+                                <td class="action-buttons">
+                                    <i class="fas fa-pen-to-square" title="Edit"></i>
+                                </td>
+                                <td class="action-buttons">
+                                    <i class="fas fa-circle-xmark" title="Hapus"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>Wakatobi: Surga Penyelam di Jantung Coral Triangle</td>
+                                <td>Esther Howard</td>
+                                <td>2025-11-01</td>
+                                <td><span class="status-badge status-draft">Draf</span></td>
+                                <td class="action-buttons">
+                                    <i class="fas fa-pen-to-square" title="Edit"></i>
+                                </td>
+                                <td class="action-buttons">
+                                    <i class="fas fa-circle-xmark" title="Hapus"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>11</td>
+                                <td>Merbabu: Menjelajahi Sabana Luas dengan Pemandangan Merapi</td>
+                                <td>Arlene McCoy</td>
+                                <td>2025-10-30</td>
+                                <td><span class="status-badge status-published">Terbit</span></td>
+                                <td class="action-buttons">
+                                    <i class="fas fa-pen-to-square" title="Edit"></i>
+                                </td>
+                                <td class="action-buttons">
+                                    <i class="fas fa-circle-xmark" title="Hapus"></i>
+                                </td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                    
+                    <div class="pagination">
+                        <span>1-11 of 11</span>
+                        <i class="fas fa-chevron-left"></i>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                    
+                </section>
+                
+            </div>
+        </div>
+    </body>
+</html>

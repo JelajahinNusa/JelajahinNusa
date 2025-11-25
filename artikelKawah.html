@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kawah Ijen - JelajahinNusa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* CSS Variables*/
+        :root {
+            --dark-bg: #000000;
+            --dark-bg-secondary: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #AAAAAA;
+            --accent-green: #1F4529; /* Disesuaikan dengan nuansa alam/hutan */
+            --card-overlay: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 100%);
+        }
+
+        /* Reset & Global */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            zoom: 90%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* Tombol */
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: var(--text-primary);
+            color: black;
+        }
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+        
+         /* === Header / Navbar === */
+        header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo i {
+            color: white;
+            font-size: 28px;
+        }
+
+        .nav-menu ul {
+            display: flex;
+            gap: 50px;
+        }
+
+        .nav-menu li a {
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .nav-menu li a:hover,
+        .nav-menu li a.active {
+            color: var(--text-primary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Menu Toggle (Hamburger) */
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-primary);
+            padding: 5px;
+            z-index: 1001;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: transparent;
+            border: 1px solid var(--text-secondary);
+            border-radius: 30px;
+            padding: 8px 15px;
+        }
+        .search-bar input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            margin-left: 10px;
+            font-family: 'Poppins', sans-serif;
+        }
+        .search-bar i {
+            color: var(--text-secondary);
+        }
+
+        /* --- PENGATURAN ICON PROFIL (Desktop) --- */
+        .user-profile {
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: 0.3s;
+        }
+        .user-profile:hover {
+            color: var(--text-secondary);
+        }
+        /* Sembunyikan item "Profil" di Nav Menu untuk Desktop */
+        .nav-profile-mobile {
+            display: none; 
+        }
+        /* ---------------------------------------- */
+
+        /* === Konten Detail Artikel === */
+
+        .post-hero {
+            position: relative;
+            height: 450px;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+        }
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70%;
+            /* Menggunakan gambar yang sudah ada di file ini */
+            background: url('gambar/kawahheroar.jpg') center center/cover no-repeat; 
+            filter: brightness(0.7);
+            z-index: 1;
+        }
+        .hero-title {
+            position: relative;
+            z-index: 2;
+            padding: 50px 0;
+            width: 100%;
+            text-align: center;
+            background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+        }
+        .hero-title h2 { /* Diubah dari h1 menjadi h2 agar konsisten */
+            font-size: 38px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+
+        .post-body {
+            padding: 50px 0;
+        }
+
+        .content-layout {
+            display: flex;
+            gap: 40px;
+        }
+
+        .main-content {
+            flex: 3;
+            padding-right: 20px;
+        }
+
+        .main-content h3 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--accent-green);
+            padding-bottom: 5px;
+        }
+
+        .main-content p, .main-content li {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .main-content ul {
+            list-style: disc;
+            padding-left: 25px;
+        }
+        .main-content ul li {
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+        }
+        .main-content strong {
+            color: var(--text-primary);
+        }
+        
+        .image-caption {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+        .image-caption img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .sidebar {
+            flex: 1;
+            padding-top: 10px;
+        }
+
+        .sidebar-box {
+            background-color: var(--dark-bg-secondary);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .sidebar-box.map-box {
+            padding: 0;
+        }
+
+        .sidebar-box h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 250px;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-secondary);
+            border-radius: 10px;
+        }
+
+        /* --- Perbaikan MAPS agar ukurannya pas --- */
+        .map-placeholder {
+            width: 100%;
+            height: 850px; /* Tinggi yang diinginkan */
+            background-color: #333;
+            border-radius: 10px;
+        }
+        .map-placeholder iframe {
+            width: 100%;
+            height: 100%;
+            display: block; 
+            border: 0;
+            /* Perbaiki border radius di sisi bawah agar tidak terpotong */
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+        /* ------------------------------------------- */
+        
+        /* Box Promo Tiket */
+        .promo-box {
+            text-align: center;
+            background: var(--accent-green);
+        }
+        .promo-box img {
+            margin: 0 auto 15px;
+            width: 100px;
+        }
+        .promo-box p {
+            font-size: 14px;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+        .promo-box .app-links a {
+            display: inline-block;
+            margin: 5px;
+        }
+        .promo-box .app-links img {
+            width: 120px;
+            height: auto;
+            margin: 0;
+        }
+
+        /* === UPDATED CSS: Related Gallery Section (Scroll Horizontal) === */
+        .related-gallery {
+            padding-top: 0px;
+            padding-bottom: 80px;
+        }
+
+        .related-gallery h3 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* Membuat Galeri Dapat Digeser */
+        .gallery-grid {
+            display: flex; /* Mengubah dari grid ke flex */
+            gap: 20px;
+            overflow-x: scroll; /* Kunci untuk scroll horizontal */
+            padding-bottom: 15px; /* Memberi ruang untuk scrollbar */
+            scroll-snap-type: x mandatory; /* Opsional: membuat scroll berhenti di tiap kartu */
+        }
+        
+        /* Menyembunyikan scrollbar default (opsional, untuk tampilan lebih bersih) */
+        .gallery-grid::-webkit-scrollbar {
+            height: 8px;
+        }
+        .gallery-grid::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+        .gallery-grid::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Ukuran Kartu Diperkecil dan Dibuat Konsisten */
+        .gallery-card {
+            background-color: var(--dark-bg-secondary);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            flex: 0 0 250px; /* Lebar kartu diatur menjadi 250px, tidak boleh mengecil atau membesar */
+            aspect-ratio: 1/1.2; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            scroll-snap-align: start; /* Mengunci scroll ke awal kartu */
+        }
+        .gallery-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 80%; 
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-caption {
+            width: 100%;
+            height: 20%; 
+            padding: 5px 10px;
+            font-size: 14px;
+            color: var(--text-primary);
+            background-color: rgba(0, 0, 0, 0.5); 
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-align: left;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+        /* === END UPDATED CSS === */
+        
+        /* === Footer (Sama seperti Galeri) === */
+        footer {
+            background-color: var(--dark-bg-secondary);
+            padding-top: 80px;
+        }
+        
+        .footer-subscribe {
+            background-color: #222;
+            border-radius: 20px;
+            padding: 50px;
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        .footer-subscribe h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .footer-subscribe p {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+        .subscribe-form {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .subscribe-form input {
+            flex: 1;
+            padding: 15px 25px;
+            border-radius: 15px;
+            border: none;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
+        }
+        .subscribe-form button {
+            padding: 15px 30px;
+            border-radius: 15px;
+        }
+        
+        .footer-main {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.5fr 1fr;
+            gap: 50px;
+            padding-bottom: 60px;
+        }
+        .footer-col .logo {
+            margin-bottom: 20px;
+        }
+        .footer-col p {
+            color: var(--text-secondary);
+            max-width: 300px;
+        }
+        .footer-col h4 {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 25px;
+        }
+        .footer-col ul li {
+            margin-bottom: 15px;
+        }
+        .footer-col ul li a {
+            color: var(--text-secondary);
+            transition: 0.3s;
+        }
+        .footer-col ul li a:hover {
+            color: var(--text-primary);
+        }
+        /* Penambahan CSS untuk detail kontak non-link */
+        .footer-col ul li span { 
+            color: var(--text-secondary);
+            transition: 0.3s;
+        }
+        /* Akhir penambahan CSS */
+        .social-icons {
+            display: flex;
+            gap: 20px;
+        }
+        .social-icons a {
+            font-size: 20px;
+            color: var(--text-secondary);
+            transition: 0.3s;
+        }
+        .social-icons a:hover {
+            color: var(--accent-green);
+        }
+
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding: 30px 0;
+            text-align: center;
+        }
+        .footer-bottom p {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+        
+        /* === Responsive (Media Queries) === */
+        @media (max-width: 992px) {
+            .content-layout {
+                flex-direction: column;
+            }
+            .sidebar {
+                flex: none;
+                width: 100%;
+                padding: 0 0 50px;
+            }
+            .main-content {
+                padding-right: 0;
+            }
+            .footer-main {
+                grid-template-columns: 1fr 1fr;
+            }
+            .post-hero {
+                height: 350px;
+            }
+            .hero-title h2 {
+                font-size: 36px;
+            }
+            .nav-profile-mobile {
+                display: block; /* Tampilkan di mobile/tablet */
+            }
+            .user-profile {
+                display: block; /* Tampilkan di desktop/tablet */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+            .menu-toggle {
+                display: block; 
+            }
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -70%;
+                width: 70%;
+                height: 100vh;
+                background-color: var(--dark-bg-secondary);
+                padding-top: 100px;
+                transition: right 0.3s ease;
+                z-index: 999;
+            }
+            .nav-menu ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+            .nav-menu.active {
+                right: 0;
+            }
+            .footer-main {
+                grid-template-columns: 1fr; 
+                gap: 30px;
+            }
+            .subscribe-form {
+                flex-direction: column;
+            }
+            .post-hero {
+                height: 250px;
+            }
+            .hero-title h2 {
+                font-size: 28px;
+            }
+            /* Sembunyikan ikon profil desktop di mobile */
+            .user-profile {
+                display: none; 
+            }
+            
+            /* Tampilkan item "Profil" di Nav Menu untuk Mobile (HANYA TEKS) */
+            .nav-profile-mobile {
+                display: block; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container navbar">
+            <a href="index.html" class="logo">
+                <i class="logo.jpg"></i> <img src="Gambar/logo1.png" height="100px" width="auto">
+            </a>
+            
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="artikel.html" class="active">Artikel</a></li>
+                    <li><a href="galeri1.html">Galeri</a></li>
+                    <li><a href="tentangKami.html">Tentang Kami</a></li>
+                    <li><a href="infoAkun1.html" class="nav-profile-mobile">Profil</a></li> </ul>
+            </nav>
+            
+            <div class="header-right">
+                <form class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Cari disini...">
+                </form>
+
+                <a href="infoAkun1.html" class="user-profile"> 
+                    <i class="fas fa-user-circle"></i>
+                </a> <div class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <div class="post-hero">
+            <div class="hero-bg"></div>
+            <div class="container hero-title">
+                <h2>Pesona Alam yang Menakjubkan di Puncak Gunung Ijen</h2>
+            </div>
+        </div>
+
+        <section class="post-body">
+            <div class="container content-layout">
+                
+                <div class="main-content">
+                    <p>Kawah Ijen adalah salah satu destinasi wisata alam yang paling terkenal di Indonesia, terletak di perbatasan antara Kabupaten Banyuwangi dan Bondowoso, Jawa Timur. Dikenal karena keindahan alamnya yang luar biasa dan fenomena blue fire yang langka, Kawah Ijen menarik perhatian wisatawan dari seluruh dunia. Dalam artikel ini, kita akan membahas keindahan, aktivitas menarik, serta tips untuk mengunjungi Kawah Ijen.</p>
+
+                    <div class="image-caption">
+                        <img src="Gambar/kawahbawh.jpg">
+                    </div>
+
+                    <h3>Rute Menuju Kawah Gunung Ijen</h3>
+                    <p>Untuk bisa menuju ke wisata Kawah Ijen, perjalanan bisa anda lakukan dari arah kota Banyuwangi menuju Paltuding. Di sana juga sudah ada loket yang buka ketika dini hari pukul 01:00. Rute perjalanan saat mendaki dari arah Paltuding ini sangat mudah karena hanya terdiri dari satu jalur saja. Dari arah Paltuding sampai kawah Ijen membutuhkan waktu mendaki hingga 3 jam.
+                       Apabila anda ingin melihat pemandangan Blue Fire, harus bisa tiba sebelum pukul 04:00 pagi. Ini artinya anda harus lebih cepat lagi supaya tidak ketinggalan fenomena tersebut. Memang jalur kawah Ijen ini cukup melelahkan karena jalan tersebut semuanya tanjakan. Jika anda belum terbiasa dengan naik gunung, maka harus memerlukan tenaga yang ekstra.</p>
+
+                    <h3>Daya Tarik Kawah Gunung Ijen</h3>
+                    <ul>
+                        <li><strong>Fenomena Alam Api Biru / Blue Fire Kawah Ijen:</strong> Apabila anda ingin melihat keindahan alamnya yang lebih jelas, sebaiknya mendaki ketika dini hari. Kawah Ijen ini menyimpan keajaiban berupa Blue Fire atau api biru pada bagian bawah kawah. Sehingga ini adalah salah satu hal yang menjadi keunikan dan daya tarik di sana. Api biru tersebut berasal dari sebuah cairan belerang yang mengering. Hingga pada akhirnya akan menjadi bahan tambang yang sering digunakan oleh warga setempat. </li>
+                        <li><strong>Danau Asam Kawah yang Menawan:</strong> Kawah Ijen merupakan sebuah kawah yang terbentuk akibat letusan gunung berapi. Di tengah kawah, terdapat danau asam berwarna turquoise yang merupakan salah satu yang terbesar di dunia. Warna danau ini disebabkan oleh kandungan sulfur yang tinggi, memberikan pemandangan yang sangat kontras dengan latar belakang tebing kawah yang hijau dan bebatuan vulkanik.</li>
+                        <li><strong>Mengamati Aktivitas Penambang Sulfur:</strong> Kawah Ijen juga dikenal sebagai lokasi penambangan sulfur. Para penambang lokal mengumpulkan sulfur dari dasar kawah dan mengangkutnya ke permukaan. Mengamati aktivitas mereka bisa menjadi pengalaman yang unik, di mana pengunjung dapat melihat langsung bagaimana proses pengambilan sulfur dilakukan. Namun, perlu diingat bahwa aktivitas ini berisiko tinggi, dan pengunjung harus menjaga jarak serta menghormati para penambang.</li>
+                        <li><strong>Snorkeling di Danau Ijen:</strong> Meskipun tidak umum, beberapa pengunjung melakukan aktivitas snorkeling di danau, namun ini sangat tidak disarankan karena tingginya kadar asam di dalam danau. Oleh karena itu, lebih baik menikmati keindahan danau dari tepi kawah.</li>
+                    </ul>
+                </div>
+                
+                <div class="sidebar">
+                    <div class="sidebar-box map-box">
+                        <h4>Peta Lokasi</h4>
+                        <div class="map-placeholder">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7900.849746547832!2d114.23663243588787!3d-8.058070167877766!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd1360879927549%3A0xa9c052cab461fff1!2sKawah%20Ijen!5e0!3m2!1sid!2sid!4v1763536694382!5m2!1sid!2sid" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                    
+                    <div class="sidebar-box promo-box">
+                        <h4>Solusi Pesan Tiket Wisata</h4>
+                        <img src="Gambar/logoapp.jpg">
+                        <h4>TiketinNusa</h4>
+                        <div class="app-links">
+                             <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/1200px-Download_on_the_App_Store_Badge.svg.png" alt="App Store"></a>
+                             <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/1200px-Google_Play_Store_badge_EN.svg.png" alt="Google Play"></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <section class="related-gallery container">
+            <h3>Galeri Pengguna Terkait Artikel</h3>
+            
+            <div class="gallery-grid" id="relatedGalleryGrid">
+                <div class="gallery-card" data-category="Gunung">
+                    <img src="Gambar/k1.jpg" alt="Foto pengguna Gunung Kerinci">
+                    <div class="gallery-caption">Pendakian Kawah Ijen</div>
+                </div>
+
+                <div class="gallery-card" data-category="Gunung">
+                    <img src="Gambar/k2.jpg" alt="Foto pengguna Puncak Jayawijaya">
+                    <div class="gallery-caption">Pemandangan Kawah Ijen</div>
+                </div>
+
+                <div class="gallery-card" data-category="Gunung">
+                    <img src="Gambar/k3.jpg" alt="Gunung Bromo">
+                    <div class="gallery-caption">Fenomena Blue Fire</div>
+                </div>
+
+                <div class="gallery-card" data-category="Gunung">
+                    <img src="Gambar/k4.jpg" alt="Foto pengguna Puncak Tertinggi">
+                    <div class="gallery-caption">Belerang di Kawah Ijen</div>
+                </div>
+                
+                <div class="gallery-card" data-category="Gunung">
+                    <img src="Gambar/k5.jpg" alt="Gunung Bromo">
+                    <div class="gallery-caption">Kawah Ijen di Pagi Hari</div>
+                </div>
+                <div class="gallery-card" data-category="Gunung">
+                    <img src="Gambar/k6.jpg" alt="Puncak salju">
+                    <div class="gallery-caption">Keindahan Blue Fire</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-subscribe">
+                <h3>Ulasan Pengguna</h3>
+                <p>Berikan Ulasan Terbaik Anda Terhadap Website Kami.</p>
+                <form class="subscribe-form">
+                    <input type="text" placeholder="Tuliskan Ulasan Anda...">
+                    <button type="submit" class="btn btn-primary">Kirim</button>
+                </form>
+            </div>
+            
+            <div class="footer-main">
+                <div class="footer-col">
+                    <a href="index.html" class="logo">
+                        <i class="logo.jpg"></i>
+                        Alamat
+                    </a>
+                    <p>JL. Tanimbar No.22, Kasin, Kec. Klojen, Kota Malang, Jawa Timur 65117</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Menu</h4>
+                    <ul>
+                        <li><a href="index.html">Beranda</a></li>
+                        <li><a href="artikel.html">Artikel</a></li>
+                        <li><a href="galeri1.html">Galeri</a></li>
+                        <li><a href="tentangKami.html">Tentang Kami</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Hubungi Kami</h4>
+                    <ul>
+                        <li><span><i class="fas fa-envelope"></i> jelajahinusa@gmail.com</span></li>
+                        <li><span><i class="fab fa-whatsapp"></i> 086288275353 (Revan)</span></li>
+                        <li><span><i class="fab fa-whatsapp"></i> 089209892410 (Baraka)</span></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Social Media</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2025 JelajahinNusa. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // --- Fungsionalitas Toggle Menu Mobile ---
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.querySelector('.nav-menu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+
+            const icon = menuToggle.querySelector('i');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+        
+        document.querySelectorAll('.nav-menu ul li a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    navMenu.classList.remove('active');
+                    const icon = menuToggle.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
