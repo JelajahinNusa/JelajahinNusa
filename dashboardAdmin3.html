@@ -242,6 +242,7 @@
         .form-group input[type="text"],
         .form-group input[type="email"],
         .form-group input[type="password"],
+        .form-group input[type="number"],
         .form-group select {
             width: 100%;
             padding: 12px;
@@ -252,6 +253,8 @@
             font-size: 16px;
             transition: border-color 0.3s;
         }
+        
+        /* MODIFIKASI SELECT MULAI */
         .form-group select {
             width: 100%;
             min-width: 150px;
@@ -261,7 +264,27 @@
             background-position: right 15px center;
             padding-right: 30px;
             cursor: pointer;
+            /* Tambahan untuk visual yang lebih menonjol */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
+        .form-group select:focus {
+            border-color: var(--accent-green);
+            outline: 3px solid var(--accent-green); /* Border lebih menonjol */
+            outline-offset: 1px;
+        }
+
+        .form-group select option {
+             /* Pastikan opsi memiliki kontras yang baik */
+            background-color: var(--dark-bg-secondary);
+            color: var(--text-primary);
+        }
+
+        /* Ini akan mempengaruhi tampilan opsi yang dipilih/saat dropdown terbuka - tergantung browser */
+        .form-group select option:checked {
+            background-color: var(--accent-green); 
+            color: var(--text-primary);
+        }
+        /* MODIFIKASI SELECT SELESAI */
 
         /* Styling untuk Logo */
         .logo-upload {
@@ -397,43 +420,76 @@
                 <div class="settings-container">
                     
                     <section class="settings-section">
-                        <h3><i class="fas fa-globe"></i> Pengaturan Umum Situs</h3>
+                        <h3><i class="fas fa-desktop"></i> Pengaturan Tampilan & Umum</h3>
                         <form>
-                            <div class="logo-upload">
-                                <div class="logo-preview">
-                                    <i class="fas fa-mountain"></i>
-                                </div>
-                                <div>
-                                    <label for="site-logo">Logo Situs</label>
-                                    <button type="button" class="upload-button">Unggah Logo Baru</button>
-                                </div>
-                            </div>
-
                             <div class="form-group vertical">
                                 <label for="site-name">Nama Situs</label>
                                 <input type="text" id="site-name" value="JelajahinNusa">
                             </div>
 
                             <div class="form-group vertical">
-                                <label for="site-tagline">Slogan (Tagline)</label>
-                                <input type="text" id="site-tagline" value="Temukan Pesona Alam Indonesia">
-                            </div>
-                            
-                            <div class="form-group vertical">
-                                <label for="timezone">Zona Waktu</label>
-                                <select id="timezone">
-                                    <option value="WIB" selected>WIB (Waktu Indonesia Barat)</option>
-                                    <option value="WITA">WITA (Waktu Indonesia Tengah)</option>
-                                    <option value="WIT">WIT (Waktu Indonesia Timur)</option>
-                                </select>
+                                <label for="site-tagline">Deskripsi</label>
+                                <input type="text" id="site-tagline" value="Temukan pesona wisata alam Indonesia yanng beraneka ragam">
                             </div>
                             
                             <div class="clearfix">
-                                <button type="submit" class="settings-action-button">Simpan Umum</button>
+                                <button type="submit" class="settings-action-button">Simpan</button>
                             </div>
                         </form>
                     </section>
                     
+                    <section class="settings-section">
+                        <h3><i class="fas fa-bell"></i> Email & Notifikasi</h3>
+                        <form>
+                            <div class="form-group vertical">
+                                <label for="admin-email">Alamat Email Admin Utama</label>
+                                <input type="email" id="admin-email" value="jelajahinusa@gmail.com">
+                            </div>
+
+                            <div class="form-group vertical">
+                                <label for="email-sender">Nama Pengirim Email</label>
+                                <input type="text" id="email-sender" value="JelajahinNusa Info">
+                            </div>
+                            
+                            <br><hr style="border-color: rgba(255, 255, 255, 0.1); margin: 30px 0;">
+                            
+                            <div class="clearfix">
+                                <button type="submit" class="settings-action-button">Simpan</button>
+                            </div>
+                        </form>
+                    </section>
+                    
+                    <section class="settings-section">
+                        <h3><i class="fas fa-images"></i> Media & Batas Upload</h3>
+                        <form>
+                            <div class="form-group vertical">
+                                <label for="max-upload-size">Batas Maksimum Ukuran File (MB)</label>
+                                <input type="number" id="max-upload-size" value="5" min="1">
+                            </div>
+
+                            <div class="form-group vertical">
+                                <label for="allowed-types">Tipe File yang Diizinkan (Dipisahkan koma)</label>
+                                <input type="text" id="allowed-types" value="jpg, jpeg, png, webp">
+                            </div>
+                            
+                            <br><hr style="border-color: rgba(255, 255, 255, 0.1); margin: 30px 0;">
+
+                            <div class="form-group vertical">
+                                <label for="image-width">Lebar Gambar Thumbnail Default (px)</label>
+                                <input type="number" id="image-width" value="150" min="50">
+                            </div>
+                            
+                            <div class="form-group vertical">
+                                <label for="image-height">Tinggi Gambar Thumbnail Default (px)</label>
+                                <input type="number" id="image-height" value="150" min="50">
+                            </div>
+
+                            <div class="clearfix">
+                                <button type="submit" class="settings-action-button">Simpan</button>
+                            </div>
+                        </form>
+                    </section>
+
                     <section class="settings-section">
                         <h3><i class="fas fa-shield-alt"></i> Keamanan & Performa Situs</h3>
                         <form>
@@ -469,54 +525,7 @@
                                 <button type="button" class="upload-button" style="float: left; margin-top: 10px; background-color: #C0392B;">
                                     <i class="fas fa-trash-alt"></i> Bersihkan Semua Cache
                                 </button>
-                                <button type="submit" class="settings-action-button">Simpan Performa</button>
-                            </div>
-                        </form>
-                    </section>
-                    
-                    <section class="settings-section full-width-section">
-                        <h3><i class="fas fa-search"></i> Pengaturan Konten & SEO Dasar</h3>
-                        <form>
-                            <div style="display: flex; gap: 30px;">
-                                <div style="flex: 1;">
-                                    <div class="form-group vertical">
-                                        <label for="default-author">Penulis Default Artikel</label>
-                                        <input type="text" id="default-author" value="Admin JelajahinNusa">
-                                    </div>
-                                    <div class="form-group vertical">
-                                        <label for="posts-per-page">Artikel Per Halaman (Arsip)</label>
-                                        <select style="width: 100%;">
-                                            <option value="5">5</option>
-                                            <option value="10" selected>10</option>
-                                            <option value="15">15</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                <div style="flex: 1;">
-                                    <div class="form-group vertical">
-                                        <label for="meta-title">Meta Title Default Situs</label>
-                                        <input type="text" id="meta-title" value="JelajahinNusa - Wisata Indonesia Terbaik">
-                                    </div>
-                                    <div class="form-group vertical">
-                                        <label for="google-analytics">ID Google Analytics</label>
-                                        <input type="text" id="google-analytics" placeholder="Contoh: UA-12345678-9">
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <br><hr style="border-color: rgba(255, 255, 255, 0.1); margin: 30px 0;">
-
-                            <div class="form-group switch-group">
-                                <label>Izinkan Pengindeksan Oleh Mesin Pencari</label>
-                                <label class="switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-
-                            <div class="clearfix">
-                                <button type="submit" class="settings-action-button">Simpan Pengaturan Konten</button>
+                                <button type="submit" class="settings-action-button">Simpan</button>
                             </div>
                         </form>
                     </section>

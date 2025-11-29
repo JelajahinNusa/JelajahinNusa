@@ -288,7 +288,8 @@
             width: 30px;
             height: 30px;
             border-radius: 50%;
-            background-color: #555555;
+            /* Warna default untuk avatar */
+            background-color: #555555; 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -320,13 +321,6 @@
             margin-bottom: 15px;
         }
 
-        /* Catatan: rating-stars telah dihapus dari HTML, jadi gaya ini tidak diperlukan lagi */
-        /* .review-card .rating-stars {
-            color: gold;
-            font-size: 14px;
-            margin-bottom: 8px;
-        } */
-
         .review-card .review-text-full {
             font-size: 14px;
             color: var(--text-primary);
@@ -346,6 +340,7 @@
             gap: 15px;
             padding-top: 10px;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
+            height: 40px; /* Tambahkan tinggi agar tidak bergeser saat tombol hilang */
         }
         
         /* Placeholder card untuk mengisi layout jika jumlah kartu tidak genap kelipatan 3 */
@@ -370,27 +365,30 @@
             flex-shrink: 0;
         }
 
-        .status-approved {
-            background-color: #27AE60; /* Hijau */
+        /* STATUS BELUM ADA/INITAL */
+        .status-initial {
+            background-color: #555555; /* Abu-abu netral */
             color: #FFFFFF;
+        }
+        /* STATUS DISETUJUI */
+        .status-approved {
+             background-color: #27AE60; /* Hijau */
+             color: #FFFFFF;
+        }
+        /* STATUS DITOLAK */
+        .status-rejected {
+             background-color: #C0392B; /* Merah */
+             color: #FFFFFF;
         }
 
-        .status-pending {
-            background-color: #F39C12; /* Kuning/Oranye */
-            color: #FFFFFF;
-        }
-        
-        .status-rejected {
-            background-color: #C0392B; /* Merah */
-            color: #FFFFFF;
-        }
+
         
         /* Kolom Aksi */
         .action-buttons {
             display: flex;
             gap: 10px;
             font-size: 18px;
-            justify-content: center;
+            justify-content: flex-end;
             align-items: center;
         }
         
@@ -403,16 +401,6 @@
         }
         .action-buttons .fa-times-circle {
             color: #C0392B; 
-        }
-        .action-buttons .fa-eye {
-            color: #AAAAAA; 
-        }
-        .action-buttons .fa-trash-alt {
-            color: #AAAAAA; 
-        }
-        .action-buttons .fa-eye:hover,
-        .action-buttons .fa-trash-alt:hover {
-            color: var(--text-primary);
         }
         
         /* Navigasi Halaman (Pagination) */
@@ -431,11 +419,6 @@
         }
         .pagination i:hover {
             color: var(--text-primary);
-        }
-        
-        /* Hapus gaya tabel yang tidak terpakai lagi */
-        .review-list-table, .review-list-table thead, .review-list-table th, .review-list-table td, .review-list-table tbody tr {
-            display: none !important;
         }
         
     </style>
@@ -490,139 +473,247 @@
                     <h3>Ulasan Pengguna</h3>
 
                     <div class="review-filter-bar">
-                        <button class="filter-button active">Semua (12)</button>
-                        <button class="filter-button">Tertunda (4)</button>
-                        <button class="filter-button">Disetujui (7)</button>
-                        <button class="filter-button">Ditolak (1)</button>
-                        <button class="filter-button"><i class="fas fa-flag"></i> Dilaporkan (2)</button>
+                        <button class="filter-button active">Semua (18)</button>
+                        <button class="filter-button" id="filter-belum-ada">Belum Ada (12)</button> 
+                        <button class="filter-button" id="filter-disetujui">Disetujui (0)</button>
+                        <button class="filter-button" id="filter-ditolak">Ditolak (0)</button>
+                        <button class="filter-button"><i class="fas fa-flag"></i> Dilaporkan (3)</button>
                     </div>
                     
                     <div class="review-cards-container">
                         
-                        <div class="review-card">
+                        <div class="review-card" data-review-id="1">
                             <div class="card-header">
-                                <span class="user-avatar">A</span>
+                                <span class="user-avatar" style="background-color: #5D3FD3;">A</span>
                                 <div class="user-details">
                                     <span class="user-name">Adam Zaki</span>
                                     <span class="review-date">2025-11-23</span>
                                 </div>
-                                <span class="status-badge status-pending">Tertunda</span>
+                                <span class="status-badge status-initial">Belum Ada</span> 
                             </div>
                             <div class="card-content">
                                 <p class="review-text-full">Artikel tentang Gunung Prau sangat informatif! Saya jadi tahu tips-tips mendaki untuk pemula. Kualitas gambar juga bagus sekali!</p>
                                 <small class="review-content-link">Konten: Gunung Prau</small>
                             </div>
-                            <div class="card-actions action-buttons">
-                                <i class="fas fa-check-circle" title="Setujui"></i>
-                                <i class="fas fa-times-circle" title="Tolak"></i>
-                                <i class="fas fa-eye" title="Lihat Detail"></i>
+                            <div class="card-actions action-buttons"> 
+                                <i class="fas fa-check-circle approve-btn" title="Setujui"></i>
+                                <i class="fas fa-times-circle reject-btn" title="Tolak"></i>
                             </div>
                         </div>
 
-                        <div class="review-card">
+                        <div class="review-card" data-review-id="2">
                             <div class="card-header">
-                                <span class="user-avatar">B</span>
+                                <span class="user-avatar" style="background-color: #D35D3F;">B</span>
                                 <div class="user-details">
                                     <span class="user-name">Bella Rosa</span>
                                     <span class="review-date">2025-11-22</span>
                                 </div>
-                                <span class="status-badge status-approved">Disetujui</span>
+                                <span class="status-badge status-initial">Belum Ada</span> 
                             </div>
                             <div class="card-content">
                                 <p class="review-text-full">Sungguh menakjubkan melihat keindahan bawah laut Raja Ampat. Terima kasih telah menyajikan destinasi ini dengan sangat baik.</p>
-                                <small class="review-content-link">Konten: Raja Ampat</small>
                             </div>
-                            <div class="card-actions action-buttons">
-                                <i class="fas fa-trash-alt" title="Hapus Permanen"></i>
-                                <i class="fas fa-eye" title="Lihat Detail"></i>
+                            <div class="card-actions action-buttons"> 
+                                <i class="fas fa-check-circle approve-btn" title="Setujui"></i>
+                                <i class="fas fa-times-circle reject-btn" title="Tolak"></i>
                             </div>
                         </div>
                         
-                        <div class="review-card">
+                        <div class="review-card" data-review-id="3">
                             <div class="card-header">
-                                <span class="user-avatar">C</span>
+                                <span class="user-avatar" style="background-color: #3F5D3D;">C</span>
                                 <div class="user-details">
                                     <span class="user-name">Cici Dwi</span>
                                     <span class="review-date">2025-11-21</span>
                                 </div>
-                                <span class="status-badge status-rejected">Ditolak</span>
+                                <span class="status-badge status-initial">Belum Ada</span>
                             </div>
                             <div class="card-content">
                                 <p class="review-text-full" style="color: #C0392B; font-style: italic;">[Mengandung kata-kata yang tidak pantas, ditolak otomatis oleh filter sistem].</p>
                                 <small class="review-content-link">Konten: Kawah Ijen</small>
                             </div>
                             <div class="card-actions action-buttons">
-                                <i class="fas fa-trash-alt" title="Hapus Permanen"></i>
-                                <i class="fas fa-eye" title="Lihat Detail"></i>
+                                <i class="fas fa-check-circle approve-btn" title="Setujui"></i>
+                                <i class="fas fa-times-circle reject-btn" title="Tolak"></i>
                             </div>
                         </div>
                         
-                        <div class="review-card">
+                        <div class="review-card" data-review-id="4">
                             <div class="card-header">
-                                <span class="user-avatar">D</span>
+                                <span class="user-avatar" style="background-color: #5D3FD3;">D</span>
                                 <div class="user-details">
                                     <span class="user-name">Dion Pratama</span>
                                     <span class="review-date">2025-11-21</span>
                                 </div>
-                                <span class="status-badge status-pending">Tertunda</span>
+                                <span class="status-badge status-initial">Belum Ada</span> 
                             </div>
                             <div class="card-content">
                                 <p class="review-text-full">Informasi tentang Gunung Bromo kurang detail . Harap ditambahkan lebih banyak.</p>
                                 <small class="review-content-link">Konten: Gunung Bromo</small>
                             </div>
-                            <div class="card-actions action-buttons">
-                                <i class="fas fa-check-circle" title="Setujui"></i>
-                                <i class="fas fa-times-circle" title="Tolak"></i>
-                                <i class="fas fa-eye" title="Lihat Detail"></i>
+                            <div class="card-actions action-buttons"> 
+                                <i class="fas fa-check-circle approve-btn" title="Setujui"></i>
+                                <i class="fas fa-times-circle reject-btn" title="Tolak"></i>
                             </div>
                         </div>
 
-                        <div class="review-card">
+                        <div class="review-card" data-review-id="5">
                             <div class="card-header">
-                                <span class="user-avatar">E</span>
+                                <span class="user-avatar" style="background-color: #3F5D3D;">E</span>
                                 <div class="user-details">
                                     <span class="user-name">Emil Farel</span>
                                     <span class="review-date">2025-11-20</span>
                                 </div>
-                                <span class="status-badge status-approved">Disetujui</span>
+                                <span class="status-badge status-initial">Belum Ada</span> 
                             </div>
                             <div class="card-content">
                                 <p class="review-text-full">Tips liburan Ke Tanjung Tinggi sangat membantu, terutama poin tentang apa yang disajikan.</p>
                                 <small class="review-content-link">Konten: Tanjung Tinggi</small>
                             </div>
-                            <div class="card-actions action-buttons">
-                                <i class="fas fa-trash-alt" title="Hapus Permanen"></i>
-                                <i class="fas fa-eye" title="Lihat Detail"></i>
+                            <div class="card-actions action-buttons"> 
+                                <i class="fas fa-check-circle approve-btn" title="Setujui"></i>
+                                <i class="fas fa-times-circle reject-btn" title="Tolak"></i>
                             </div>
                         </div>
 
-                        <div class="review-card">
+                        <div class="review-card" data-review-id="6">
                             <div class="card-header">
-                                <span class="user-avatar">F</span>
+                                <span class="user-avatar" style="background-color: #D35D3F;">F</span>
                                 <div class="user-details">
                                     <span class="user-name">Fajar Gemilang</span>
                                     <span class="review-date">2025-11-20</span>
                                 </div>
-                                <span class="status-badge status-pending">Tertunda</span>
+                                <span class="status-badge status-initial">Belum Ada</span> 
                             </div>
                             <div class="card-content">
                                 <p class="review-text-full">Pengalaman ke Pantai Ora yang dibagikan sangat berkesan. Foto-foto yang disajikan juga indah dan menggugah selera untuk berlibur.</p>
                                 <small class="review-content-link">Konten: Pantai Ora</small>
                             </div>
-                            <div class="card-actions action-buttons">
-                                <i class="fas fa-check-circle" title="Setujui"></i>
-                                <i class="fas fa-times-circle" title="Tolak"></i>
-                                <i class="fas fa-eye" title="Lihat Detail"></i>
+                            <div class="card-actions action-buttons"> 
+                                <i class="fas fa-check-circle approve-btn" title="Setujui"></i>
+                                <i class="fas fa-times-circle reject-btn" title="Tolak"></i>
                             </div>
                         </div>
                         
-                        <div class="review-card placeholder"></div> 
-                        <div class="review-card placeholder"></div>
-                        <div class="review-card placeholder"></div>
+                        <div class="review-card" data-review-id="7">
+                            <div class="card-header">
+                                <span class="user-avatar" style="background-color: #3F5D3D;">G</span>
+                                <div class="user-details">
+                                    <span class="user-name">Gilang Hermawan</span>
+                                    <span class="review-date">2025-11-19</span>
+                                </div>
+                                <span class="status-badge status-initial">Belum Ada</span> 
+                            </div>
+                            <div class="card-content">
+                                <p class="review-text-full">Pulau Komodo benar-benar surga! Saya sangat menghargai informasi praktis yang disertakan dalam artikel ini.</p>
+                                <small class="review-content-link">Konten: Pulau Komodo</small>
+                            </div>
+                            <div class="card-actions action-buttons"> 
+                                <i class="fas fa-check-circle approve-btn" title="Setujui"></i>
+                                <i class="fas fa-times-circle reject-btn" title="Tolak"></i>
+                            </div>
+                        </div>
+
+                        <div class="review-card" data-review-id="8">
+                            <div class="card-header">
+                                <span class="user-avatar" style="background-color: #D35D3F;">H</span>
+                                <div class="user-details">
+                                    <span class="user-name">Hana Kusuma</span>
+                                    <span class="review-date">2025-11-18</span>
+                                </div>
+                                <span class="status-badge status-initial">Belum Ada</span> 
+                            </div>
+                            <div class="card-content">
+                                <p class="review-text-full">Penjelasan tentang Danau Toba sangat mendalam. Saya berencana untuk berkunjung tahun depan!</p>
+                                <small class="review-content-link">Konten: Danau Toba</small>
+                            </div>
+                            <div class="card-actions action-buttons"> 
+                                <i class="fas fa-check-circle approve-btn" title="Setujui"></i>
+                                <i class="fas fa-times-circle reject-btn" title="Tolak"></i>
+                            </div>
+                        </div>
+
+                        <div class="review-card" data-review-id="9">
+                            <div class="card-header">
+                                <span class="user-avatar" style="background-color: #5D3FD3;">I</span>
+                                <div class="user-details">
+                                    <span class="user-name">Indra Jaya</span>
+                                    <span class="review-date">2025-11-17</span>
+                                </div>
+                                <span class="status-badge status-initial">Belum Ada</span> 
+                            </div>
+                            <div class="card-content">
+                                <p class="review-text-full">Lombok memang indah! Artikel ini berhasil menangkap esensinya. Sangat direkomendasikan!</p>
+                                <small class="review-content-link">Konten: Gili Trawangan, Lombok</small>
+                            </div>
+                            <div class="card-actions action-buttons"> 
+                                <i class="fas fa-check-circle approve-btn" title="Setujui"></i>
+                                <i class="fas fa-times-circle reject-btn" title="Tolak"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="review-card" data-review-id="10">
+                            <div class="card-header">
+                                <span class="user-avatar" style="background-color: #5D3FD3;">J</span>
+                                <div class="user-details">
+                                    <span class="user-name">Jaka Laksana</span>
+                                    <span class="review-date">2025-11-16</span>
+                                </div>
+                                <span class="status-badge status-initial">Belum Ada</span> 
+                            </div>
+                            <div class="card-content">
+                                <p class="review-text-full">Sangat kecewa dengan informasi yang diberikan. Kurang akurat dan berlebihan. Mohon perbaiki segera.</p>
+                                <small class="review-content-link">Konten: Air Terjun Tumpak Sewu</small>
+                            </div>
+                            <div class="card-actions action-buttons"> 
+                                <i class="fas fa-check-circle approve-btn" title="Setujui"></i>
+                                <i class="fas fa-times-circle reject-btn" title="Tolak"></i>
+                            </div>
+                        </div>
+
+                        <div class="review-card" data-review-id="11">
+                            <div class="card-header">
+                                <span class="user-avatar" style="background-color: #3F5D3D;">K</span>
+                                <div class="user-details">
+                                    <span class="user-name">Kartika Dewi</span>
+                                    <span class="review-date">2025-11-15</span>
+                                </div>
+                                <span class="status-badge status-initial">Belum Ada</span> 
+                            </div>
+                            <div class="card-content">
+                                <p class="review-text-full">Artikel tentang Borobudur sangat lengkap dan edukatif. Bagus sekali untuk referensi sejarah dan wisata!</p>
+                                <small class="review-content-link">Konten: Candi Borobudur</small>
+                            </div>
+                            <div class="card-actions action-buttons"> 
+                                <i class="fas fa-check-circle approve-btn" title="Setujui"></i>
+                                <i class="fas fa-times-circle reject-btn" title="Tolak"></i>
+                            </div>
+                        </div>
+
+                        <div class="review-card" data-review-id="12">
+                            <div class="card-header">
+                                <span class="user-avatar" style="background-color: #D35D3F;">L</span>
+                                <div class="user-details">
+                                    <span class="user-name">Lukman Hakim</span>
+                                    <span class="review-date">2025-11-14</span>
+                                </div>
+                                <span class="status-badge status-initial">Belum Ada</span> 
+                            </div>
+                            <div class="card-content">
+                                <p class="review-text-full">Saya menemukan sedikit kesalahan penulisan nama tempat di paragraf ketiga. Selebihnya informasinya berguna. Terima kasih.</p>
+                                <small class="review-content-link">Konten: Desa Adat Wae Rebo</small>
+                            </div>
+                            <div class="card-actions action-buttons"> 
+                                <i class="fas fa-check-circle approve-btn" title="Setujui"></i>
+                                <i class="fas fa-times-circle reject-btn" title="Tolak"></i>
+                            </div>
+                        </div>
+                        
                     </div>
+
                     <div class="pagination">
-                        <span>1-6 of 12</span>
-                        <i class="fas fa-chevron-left"></i>
+                        <span>1-12 of 18</span>
+                        <i class="fas fa-chevron-left" style="color: #444; cursor: default;"></i> 
                         <i class="fas fa-chevron-right"></i>
                     </div>
                     
@@ -630,5 +721,102 @@
                 
             </div>
         </div>
+        
+        <script>
+            // Fungsi utama yang akan menangani perubahan status ulasan
+            function handleReviewAction(event) {
+                // Pastikan yang diklik adalah tombol Setujui atau Tolak
+                if (event.target.classList.contains('approve-btn') || event.target.classList.contains('reject-btn')) {
+                    
+                    const actionButton = event.target;
+                    
+                    // Temukan elemen parent .review-card yang menyimpan ulasan ini
+                    const reviewCard = actionButton.closest('.review-card');
+                    if (!reviewCard) return; // Hentikan jika tidak ditemukan
+
+                    // Ambil elemen status badge
+                    const statusBadge = reviewCard.querySelector('.status-badge');
+                    
+                    // Ambil kontainer tombol aksi
+                    const actionContainer = reviewCard.querySelector('.card-actions');
+
+                    // Tentukan aksi dan status baru
+                    let newStatusText;
+                    let newStatusClass;
+
+                    if (actionButton.classList.contains('approve-btn')) {
+                        // Aksi: Setujui
+                        newStatusText = 'Disetujui';
+                        newStatusClass = 'status-approved';
+                    } else if (actionButton.classList.contains('reject-btn')) {
+                        // Aksi: Tolak
+                        newStatusText = 'Ditolak';
+                        newStatusClass = 'status-rejected';
+                    }
+
+                    // 1. Perbarui tampilan status
+                    // Hapus semua kelas status lama (initial, approved, rejected)
+                    statusBadge.classList.remove('status-initial', 'status-approved', 'status-rejected');
+                    
+                    // Tambahkan kelas status baru dan ubah teks
+                    statusBadge.classList.add(newStatusClass);
+                    statusBadge.textContent = newStatusText;
+
+                    // 2. Sembunyikan semua tombol aksi
+                    // Kosongkan area aksi sepenuhnya
+                    actionContainer.innerHTML = ''; 
+                    
+                    // Opsional: Tampilkan notifikasi atau log di konsol
+                    console.log(`Ulasan ID ${reviewCard.dataset.reviewId} diubah status menjadi: ${newStatusText}`);
+                    
+                    // Kita juga bisa memperbarui jumlah di filter bar (opsional, tapi bagus)
+                    updateFilterCounts(newStatusText);
+                }
+            }
+
+            // Fungsi untuk memperbarui jumlah filter di header (sederhana)
+            function updateFilterCounts(status) {
+                const totalFilter = document.querySelector('.review-filter-bar .filter-button.active');
+                const belumAdaFilter = document.getElementById('filter-belum-ada');
+                const disetujuiFilter = document.getElementById('filter-disetujui');
+                const ditolakFilter = document.getElementById('filter-ditolak');
+
+                // Dapatkan nilai numerik saat ini
+                let countBelumAda = parseInt(belumAdaFilter.textContent.match(/\((\d+)\)/)[1]);
+                let countDisetujui = parseInt(disetujuiFilter.textContent.match(/\((\d+)\)/)[1]);
+                let countDitolak = parseInt(ditolakFilter.textContent.match(/\((\d+)\)/)[1]);
+
+                // Kurangi 'Belum Ada' dan tambahkan ke status baru
+                if (countBelumAda > 0) {
+                    countBelumAda--;
+                }
+
+                if (status === 'Disetujui') {
+                    countDisetujui++;
+                } else if (status === 'Ditolak') {
+                    countDitolak++;
+                }
+                
+                // Perbarui teks tombol filter
+                belumAdaFilter.textContent = `Belum Ada (${countBelumAda})`;
+                disetujuiFilter.textContent = `Disetujui (${countDisetujui})`;
+                ditolakFilter.textContent = `Ditolak (${countDitolak})`;
+                
+                // Perbarui total (contoh: 18 - 12 = 6 review yang sudah disetujui/ditolak di halaman lain)
+                const initialFixedCount = 6; // Angka ini bisa diganti dengan logik database
+                const newTotal = initialFixedCount + countDisetujui + countDitolak;
+                totalFilter.textContent = `Semua (${newTotal})`; 
+            }
+
+            // Tambahkan event listener ke container kartu (delegasi event)
+            document.querySelector('.review-cards-container').addEventListener('click', handleReviewAction);
+            
+            // Inisialisasi: Hapus tombol setujui/tolak dari ulasan yang sudah "Dilaporkan" (ID 10)
+            document.addEventListener('DOMContentLoaded', () => {
+                // Tidak ada aksi inisialisasi spesifik yang diperlukan selain yang ada di HTML
+            });
+
+        </script>
+        
     </body>
 </html>

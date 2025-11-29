@@ -274,15 +274,31 @@
             background-color: rgba(255, 255, 255, 0.0); 
         }
         
-        /* Atur style untuk gambar profil */
+        /* GAYA BARU UNTUK USER AVATAR (Inisial) */
         .profile-image-cell img {
-            width: 35px;
-            height: 35px;
+            display: none; /* Sembunyikan tag <img> lama */
+        }
+        
+        /* MODIFIKASI: Terapkan text-align left pada sel yang berisi avatar */
+        .profile-image-cell {
+            text-align: left; /* Menggeser konten ke kiri */
+        }
+
+        .user-avatar {
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
-            object-fit: cover;
-            /* Pastikan gambar berada di tengah secara horizontal di selnya */
-            margin-left: auto;
-            margin-right: auto;
+            display: inline-flex; 
+            justify-content: center;
+            align-items: center;
+            font-size: 14px; /* Ukuran font untuk inisial */
+            font-weight: 500;
+            color: var(--text-primary); /* Teks putih */
+            margin: 0; 
+            /* Pastikan tidak ada wrap jika di-flex */
+            flex-shrink: 0; 
+            /* Tambahkan sedikit padding kiri agar tidak terlalu menempel pada batas sel */
+            margin-left: 5px; 
         }
         
         /* Atur style untuk username */
@@ -396,7 +412,7 @@
                         <tbody>
                             <tr>
                                 <td>1</td>
-                                <td class="profile-image-cell"> <img src="Gambar/profil.jpg" alt="Bessie Cooper"> 
+                                <td class="profile-image-cell"> <span class="user-avatar"></span>
                                 </td>
                                 <td class="username-cell"> <span>Bessie Cooper</span>
                                 </td>
@@ -413,7 +429,7 @@
                             <tr>
                                 <td>2</td>
                                 <td class="profile-image-cell">
-                                    <img src="Gambar/profil.jpg" alt="Jenny Wilson">
+                                    <span class="user-avatar"></span>
                                 </td>
                                 <td class="username-cell">
                                     <span>Jenny Wilson</span>
@@ -431,7 +447,7 @@
                             <tr>
                                 <td>3</td>
                                 <td class="profile-image-cell">
-                                    <img src="Gambar/profil.jpg" alt="Kathryn Murphy">
+                                    <span class="user-avatar"></span>
                                 </td>
                                 <td class="username-cell">
                                     <span>Kathryn Murphy</span>
@@ -449,7 +465,7 @@
                             <tr>
                                 <td>4</td>
                                 <td class="profile-image-cell">
-                                    <img src="Gambar/profil.jpg" alt="Courtney Henry">
+                                    <span class="user-avatar"></span>
                                 </td>
                                 <td class="username-cell">
                                     <span>Courtney Henry</span>
@@ -467,7 +483,7 @@
                             <tr>
                                 <td>5</td>
                                 <td class="profile-image-cell">
-                                    <img src="Gambar/profil.jpg" alt="Jerome Bell">
+                                    <span class="user-avatar"></span>
                                 </td>
                                 <td class="username-cell">
                                     <span>Jerome Bell</span>
@@ -485,7 +501,7 @@
                             <tr>
                                 <td>6</td>
                                 <td class="profile-image-cell">
-                                    <img src="Gambar/profil.jpg" alt="Wade Warren">
+                                    <span class="user-avatar"></span>
                                 </td>
                                 <td class="username-cell">
                                     <span>Wade Warren</span>
@@ -503,7 +519,7 @@
                             <tr>
                                 <td>7</td>
                                 <td class="profile-image-cell">
-                                    <img src="Gambar/profil.jpg" alt="Jane Cooper">
+                                    <span class="user-avatar"></span>
                                 </td>
                                 <td class="username-cell">
                                     <span>Jane Cooper</span>
@@ -521,7 +537,7 @@
                             <tr>
                                 <td>8</td>
                                 <td class="profile-image-cell">
-                                    <img src="Gambar/profil.jpg" alt="Floyd Miles">
+                                    <span class="user-avatar"></span>
                                 </td>
                                 <td class="username-cell">
                                     <span>Floyd Miles</span>
@@ -539,7 +555,7 @@
                             <tr>
                                 <td>9</td>
                                 <td class="profile-image-cell">
-                                    <img src="Gambar/profil.jpg" alt="Kristin Watson">
+                                    <span class="user-avatar"></span>
                                 </td>
                                 <td class="username-cell">
                                     <span>Kristin Watson</span>
@@ -557,7 +573,7 @@
                             <tr>
                                 <td>10</td>
                                 <td class="profile-image-cell">
-                                    <img src="Gambar/profil.jpg" alt="Esther Howard">
+                                    <span class="user-avatar"></span>
                                 </td>
                                 <td class="username-cell">
                                     <span>Esther Howard</span>
@@ -575,7 +591,7 @@
                             <tr>
                                 <td>11</td>
                                 <td class="profile-image-cell">
-                                    <img src="Gambar/profil.jpg" alt="Arlene McCoy">
+                                    <span class="user-avatar"></span>
                                 </td>
                                 <td class="username-cell">
                                     <span>Arlene McCoy</span>
@@ -593,7 +609,7 @@
                             <tr>
                                 <td>12</td>
                                 <td class="profile-image-cell">
-                                    <img src="Gambar/profil.jpg" alt="Devon Lane">
+                                    <span class="user-avatar"></span>
                                 </td>
                                 <td class="username-cell">
                                     <span>Devon Lane</span>
@@ -611,7 +627,7 @@
                             <tr>
                                 <td>13</td>
                                 <td class="profile-image-cell">
-                                    <img src="Gambar/profil.jpg" alt="Darrell Steward">
+                                    <span class="user-avatar"></span>
                                 </td>
                                 <td class="username-cell">
                                     <span>Darrell Steward</span>
@@ -629,7 +645,7 @@
                             <tr>
                                 <td>14</td>
                                 <td class="profile-image-cell">
-                                    <img src="Gambar/profil.jpg" alt="Cody Fisher">
+                                    <span class="user-avatar"></span>
                                 </td>
                                 <td class="username-cell">
                                     <span>Cody Fisher</span>
@@ -657,5 +673,48 @@
                 
             </div>
         </div>
+        
+        <script>
+            // Fungsi untuk menghasilkan warna latar belakang yang unik berdasarkan nama pengguna (hashing sederhana)
+            function generateRandomColor(name) {
+                let hash = 0;
+                for (let i = 0; i < name.length; i++) {
+                    // Algoritma hash sederhana
+                    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+                }
+                let color = '#';
+                for (let i = 0; i < 3; i++) {
+                    let value = (hash >> (i * 8)) & 0xFF;
+                    // Memastikan warna cukup gelap untuk teks putih (range 50-150)
+                    value = Math.max(50, Math.min(150, value));
+                    color += ('00' + value.toString(16)).substr(-2);
+                }
+                return color;
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const userRows = document.querySelectorAll('.user-list-table tbody tr');
+                
+                userRows.forEach(row => {
+                    const avatarPlaceholder = row.querySelector('.user-avatar');
+                    const usernameElement = row.querySelector('.username-cell span');
+
+                    if (avatarPlaceholder && usernameElement) {
+                        const username = usernameElement.textContent.trim();
+
+                        // 1. Ambil inisial pertama
+                        const initial = username.charAt(0).toUpperCase();
+
+                        // 2. Buat warna latar belakang
+                        const bgColor = generateRandomColor(username);
+                        
+                        // 3. Masukkan inisial dan warna ke placeholder
+                        avatarPlaceholder.textContent = initial;
+                        avatarPlaceholder.style.backgroundColor = bgColor;
+                    }
+                });
+            });
+        </script>
+
     </body>
 </html>

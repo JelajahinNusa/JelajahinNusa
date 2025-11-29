@@ -778,7 +778,7 @@
     <header>
         <div class="container navbar">
             <a href="index.html" class="logo">
-                <i class="logo.jpg"></i> <img src="Gambar/logo1.png" height="100px" width="auto">
+                <i class="logo.jpg"></i> <img src="Gambar/logo2.png" height="100px" width="auto">
             </a>
             
             <nav class="nav-menu">
@@ -1119,11 +1119,8 @@
 ];
 
 let currentSlideIndex = 0;
-// Pastikan elemen ini ada di HTML Anda: <div class="hero">
 const heroElement = document.querySelector('.hero');
-// Pastikan elemen ini ada di HTML Anda: <div id="hero-content">
 const heroContent = document.getElementById('hero-content');
-// Pastikan elemen ini ada di HTML Anda: <div id="hero-dots">
 const heroDotsContainer = document.getElementById('hero-dots');
 const autoSlideInterval = 5000; // Interval auto-play (5 detik)
 let sliderTimer;
@@ -1196,7 +1193,7 @@ function initializeSlider() {
     sliderTimer = setInterval(nextSlide, autoSlideInterval);
 }
 
-// 🌟 SOLUSI 2: PANGGIL FUNGSI INI HANYA SEKALI SAAT HALAMAN DIMUAT!
+
 initializeSlider();
 
         // Panggil fungsi inisialisasi setelah DOM dimuat
